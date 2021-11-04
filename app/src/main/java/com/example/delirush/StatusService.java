@@ -26,7 +26,10 @@ public class StatusService extends Service {
         ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
         for(int position=0; position<orderData.size();position++) {
             if (orderData.get(position).getOrderStatus() == "Ready") {
-                startService(new Intent(getApplicationContext(), AlarmService.class));
+                Intent intent_status = new Intent(getApplicationContext(), AlarmService.class);
+                intent_status.putExtra("orderID", orderData.get(position).getOrderID());
+                startService(intent_status);
+//                startService(new Intent(getApplicationContext(), AlarmService.class));
             }
         }
         // Keep checking the status of food until all are collected

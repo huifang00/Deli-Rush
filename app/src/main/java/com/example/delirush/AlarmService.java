@@ -1,26 +1,19 @@
 package com.example.delirush;
 
-import android.app.IntentService;
+import android.app.AlertDialog;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.os.SystemClock;
-import android.text.format.DateFormat;
-import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class AlarmService extends Service {
     //getting the sound snippet from resources folder
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
-//    private int originalVolume;
 
     @Nullable
     @Override
@@ -52,8 +45,12 @@ public class AlarmService extends Service {
      */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
+        String orderID  = (String) intent.getExtras().get("orderID");
+
         if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL)
             mediaPlayer.start();    // play the ringtone
+            display(orderID);
+
         return START_STICKY;
     }
 
@@ -66,4 +63,28 @@ public class AlarmService extends Service {
         Toast.makeText(getApplicationContext(),"DESTROYED",Toast.LENGTH_SHORT).show();
         mediaPlayer.stop();
     }
+
+    public void display(String orderID){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        for(int i=0;i<OrderActivity.getOrderData().size();i++){
+            if(OrderActivity.getOrderData().get(i).getOrderID() == orderID){
+                OrderActivity.getOrderData().get(i).setOrderStatus("ON MY WAY");
+                break;
+            }
+        }
+        String msg = "Food order ID: " + orderID + " ready to be collected.";
+        builder1.setMessage(msg);
+
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        mediaPlayer.stop();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        }
+
 }

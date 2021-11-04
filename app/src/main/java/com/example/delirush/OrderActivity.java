@@ -63,6 +63,7 @@ public class OrderActivity extends AppCompatActivity {
         orderRecyclerView.setHasFixedSize(true);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         orderRecyclerView.setAdapter(adapter);
+        startService(new Intent(getApplicationContext(),StatusService.class));
     }
 
     @Override
