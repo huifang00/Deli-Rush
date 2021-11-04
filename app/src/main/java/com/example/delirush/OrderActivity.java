@@ -1,24 +1,32 @@
 package com.example.delirush;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.IntentService;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 public class OrderActivity extends AppCompatActivity {
     //Initialize variable
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
+    // make the order data global to the service
+    private static ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,7 @@ public class OrderActivity extends AppCompatActivity {
 
         // List of data
         // Need get the last Order ID and update new one
-        ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
+//        ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
         orderData.add(new OrderListData("0", "Chinese", "Ready"));
         orderData.add(new OrderListData("1", "Malay", "Collected"));
         Collections.reverse(orderData   );
@@ -55,7 +63,6 @@ public class OrderActivity extends AppCompatActivity {
         orderRecyclerView.setHasFixedSize(true);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         orderRecyclerView.setAdapter(adapter);
-        updateStatus(orderData);
     }
 
     @Override
@@ -65,10 +72,12 @@ public class OrderActivity extends AppCompatActivity {
         HomeActivity.closeDrawer(drawerLayout);
     }
 
-    // call this all the time
-    public void updateStatus(ArrayList<OrderListData>orderData){
-        for(int position=0; position<orderData.size();position++){
-            OrderListData order = orderData.get(position);
-        }
+    public static ArrayList<OrderListData> getOrderData() {
+        return orderData;
     }
+
+    public static void setOrderData(ArrayList<OrderListData> orderData) {
+        OrderActivity.orderData = orderData;
+    }
+
 }

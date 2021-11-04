@@ -66,6 +66,8 @@ public class HomeActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+        // start the service to check whether is any order ready
+        startService(new Intent(getApplicationContext(),StatusService.class));
     }
 
     @Override
