@@ -1,4 +1,4 @@
-package com.example.delirush;
+package com.example.delirush.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.delirush.OrderListData;
+import com.example.delirush.R;
 
 import java.util.ArrayList;
 

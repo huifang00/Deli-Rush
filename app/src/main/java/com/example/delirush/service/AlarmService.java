@@ -1,4 +1,4 @@
-package com.example.delirush;
+package com.example.delirush.service;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -6,10 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+
+import com.example.delirush.OrderActivity;
+import com.example.delirush.R;
 
 public class AlarmService extends Service {
     //getting the sound snippet from resources folder

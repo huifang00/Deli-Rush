@@ -5,15 +5,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.delirush.adapter.MainAdapter;
+import com.example.delirush.adapter.OrderAdapter;
+import com.example.delirush.service.AlarmService;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -109,7 +110,7 @@ public class OrderActivity extends AppCompatActivity {
                         }
                         // update the latest status
                         startActivity(new Intent(getApplicationContext(),OrderActivity.class));
-                        stopService(new Intent(getApplicationContext(),AlarmService.class));
+                        stopService(new Intent(getApplicationContext(), AlarmService.class));
                         dialog.dismiss();
                     }
                 });

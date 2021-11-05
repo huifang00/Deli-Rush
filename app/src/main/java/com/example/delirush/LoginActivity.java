@@ -1,10 +1,7 @@
 package com.example.delirush;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
-import android.net.Credentials;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,13 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
-    //        public void onLogIn(View view) {
-//            Intent loginIntent = new Intent(this, HomeActivity.class);
-//            EditText editId = (EditText) findViewById(R.id.editId);
-//            String id = editId.getText().toString();
-//            loginIntent.putExtra("id", id);
-//            startActivity(loginIntent);
-//        }
     public void onLogIn(View view) {
         Button loginbtn = (Button) findViewById(R.id.loginbtn);
         TextView attemptsLeft = (TextView) findViewById(R.id.attemptsLeft);

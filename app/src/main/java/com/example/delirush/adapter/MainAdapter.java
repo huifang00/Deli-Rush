@@ -1,4 +1,4 @@
-package com.example.delirush;
+package com.example.delirush.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.delirush.CartActivity;
+import com.example.delirush.HomeActivity;
+import com.example.delirush.MainActivity;
+import com.example.delirush.OrderActivity;
+import com.example.delirush.R;
 
 import java.util.ArrayList;
 

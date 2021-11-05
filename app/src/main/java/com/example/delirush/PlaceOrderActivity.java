@@ -11,11 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.delirush.adapter.MainAdapter;
+import com.example.delirush.service.StatusService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-public class PlaceOrder extends AppCompatActivity {
+public class PlaceOrderActivity extends AppCompatActivity {
     //Initialize variable
     DrawerLayout drawerLayout;
     ImageView btMenu;
@@ -71,7 +74,7 @@ public class PlaceOrder extends AppCompatActivity {
             }
         }).start();
         // pass the position showing in the list
-        startService(new Intent(getApplicationContext(),StatusService.class));
+        startService(new Intent(getApplicationContext(), StatusService.class));
     }
 
     @Override

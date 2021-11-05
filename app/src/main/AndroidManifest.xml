@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliRush" >
         <activity
-            android:name=".PlaceOrder"
+            android:name=".PlaceOrderActivity"
             android:exported="true" />
         <activity
             android:name=".CartActivity"
@@ -35,10 +35,10 @@
         </activity>
 
         <service
-            android:name=".AlarmService"
+            android:name=".service.AlarmService"
             android:exported="false" />
         <service
-            android:name=".StatusService"
+            android:name=".service.StatusService"
             android:exported="false" />
     </application>
 

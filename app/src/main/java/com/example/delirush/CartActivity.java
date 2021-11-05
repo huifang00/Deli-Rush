@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.example.delirush.adapter.MainAdapter;
 
 public class CartActivity extends AppCompatActivity {
     //Initialize variable
