@@ -66,8 +66,6 @@ public class HomeActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        // start the service to check whether is any order ready
-        startService(new Intent(getApplicationContext(),StatusService.class));
     }
 
     @Override
@@ -78,6 +76,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onSelectChinese(View view){
+        Intent chinese_intent = new Intent(this, PlaceOrder.class);
+        startActivity(chinese_intent);
     }
 
     public void onSelectMalay(View view){

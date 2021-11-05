@@ -1,7 +1,7 @@
 package com.example.delirush;
 import android.app.Service;
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -15,7 +15,7 @@ public class StatusService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
+    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,23 +23,37 @@ public class StatusService extends Service {
 
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
-        ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
-        for(int position=0; position<orderData.size();position++) {
-            if (orderData.get(position).getOrderStatus() == "Ready") {
-                Intent intent_status = new Intent(getApplicationContext(), AlarmService.class);
-                intent_status.putExtra("orderID", orderData.get(position).getOrderID());
-                startService(intent_status);
-//                startService(new Intent(getApplicationContext(), AlarmService.class));
+        new Thread(new Runnable() {
+            public void run() {
+                boolean match_collected = true;
+                // check if all order are collected status, if not then need loop the order status until ready is found
+                for(int i=0;i<OrderActivity.getOrderStatusList().size();i++){
+                    if(OrderActivity.getOrderStatusList().get(i) != "Collected"){
+                        match_collected = false;
+                        break;
+                    }
+                }
+
+                if(!match_collected && !OrderActivity.getOrderData().isEmpty()){
+                    for(int position=0; position<orderData.size();position++) {
+                        if (orderData.get(position).getOrderStatus() == "Ready") {
+                            intentAlarm(position);
+                            break;
+                        }
+                        if(position == orderData.size()-1) {
+                            position = -1;   // loop again until ready is found
+                            orderData = OrderActivity.getOrderData();   // update the data
+                        }
+                    }
+                }
             }
-        }
-        // Keep checking the status of food until all are collected
-        for(int position=0; position<orderData.size();position++) {
-            if (orderData.get(position).getOrderStatus() != "Collected") {
-                startService(new Intent(getApplicationContext(),StatusService.class));
+
+            private void intentAlarm(int position) {
+                Intent intent_alarm = new Intent(getApplicationContext(), AlarmService.class);
+                intent_alarm.putExtra("orderID", orderData.get(position).getOrderID());
+                startService(intent_alarm);
             }
-        }
-        // if the status is like on the way for colletion, loop the one for 5 minutees
-        // if no then ring again? this might need one more service to update the random time
+        }).start();
         return START_STICKY;
     }
 
@@ -49,6 +63,6 @@ public class StatusService extends Service {
      */
     @Override
     public void onDestroy(){
-        Toast.makeText(getApplicationContext(),"DESTROYED",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"DESTROYED1",Toast.LENGTH_SHORT).show();
     }
 }

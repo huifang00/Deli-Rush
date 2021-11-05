@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
     private int failed = 0;
 
@@ -79,6 +81,10 @@ public class LoginActivity extends AppCompatActivity {
             }
             // if the id matches with the password, proceed to next page
             else {
+                ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
+                orderData.add(new OrderListData("0", "Chinese", "Collected"));
+                orderData.add(new OrderListData("1", "Malay", "Collected"));
+                OrderActivity.setOrderData(orderData);
                 startActivity(new Intent(this, HomeActivity.class));
             }
 

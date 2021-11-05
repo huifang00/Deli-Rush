@@ -1,24 +1,21 @@
 package com.example.delirush;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.IntentService;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 public class OrderActivity extends AppCompatActivity {
     //Initialize variable
@@ -27,6 +24,7 @@ public class OrderActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     // make the order data global to the service
     private static ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
+    private String orderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +50,21 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-        // List of data
-        // Need get the last Order ID and update new one
-//        ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
-        orderData.add(new OrderListData("0", "Chinese", "Ready"));
-        orderData.add(new OrderListData("1", "Malay", "Collected"));
-        Collections.reverse(orderData   );
         RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
         OrderAdapter adapter = new OrderAdapter(orderData);
         orderRecyclerView.setHasFixedSize(true);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         orderRecyclerView.setAdapter(adapter);
-        startService(new Intent(getApplicationContext(),StatusService.class));
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null){
+            return;
+        }
+        String orderID = extras.getString("orderID");
+        String ringing = extras.getString("ringing");
+        if(ringing.equals("ringing")){
+            display(orderID);
+        }
     }
 
     @Override
@@ -79,6 +80,45 @@ public class OrderActivity extends AppCompatActivity {
 
     public static void setOrderData(ArrayList<OrderListData> orderData) {
         OrderActivity.orderData = orderData;
+        // reverse the list of orders so the top one is always the lastest order
+        Collections.reverse(orderData);
     }
 
+    public static ArrayList<String> getOrderStatusList(){
+        ArrayList<String> orderStatus = new ArrayList<String>();
+        for(int i=0;i<orderData.size();i++){
+            orderStatus.add(orderData.get(i).getOrderStatus());
+        }
+        return orderStatus;
+    }
+
+    public void display(String orderID){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        String msg = "Food order ID: " + orderID + " ready to be collected.";
+        builder1.setMessage(msg);
+        builder1.setCancelable(false);  //prevent getting dismissed by back key
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        for(int i=0;i<OrderActivity.getOrderData().size();i++){
+                            if(OrderActivity.getOrderData().get(i).getOrderID().equals(orderID)){
+                                OrderActivity.getOrderData().get(i).setOrderStatus("ON MY WAY");
+                                break;
+                            }
+                        }
+                        // update the latest status
+                        startActivity(new Intent(getApplicationContext(),OrderActivity.class));
+                        stopService(new Intent(getApplicationContext(),AlarmService.class));
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        moveTaskToBack(true);
+    }
 }

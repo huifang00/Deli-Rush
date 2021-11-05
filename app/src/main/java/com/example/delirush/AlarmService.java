@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ public class AlarmService extends Service {
      */
     @Override
     public void onCreate() {
+        stopService(new Intent(getApplicationContext(),StatusService.class));
         super.onCreate();
         mediaPlayer = MediaPlayer.create(this, R.raw.ringtone);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -47,10 +49,14 @@ public class AlarmService extends Service {
     public int onStartCommand (Intent intent,int flags, int startId){
         String orderID  = (String) intent.getExtras().get("orderID");
 
-        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL)
+        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
             mediaPlayer.start();    // play the ringtone
-            display(orderID);
-
+        }
+        Intent order_intent = new Intent(this, OrderActivity.class);
+        order_intent.putExtra("ringing", "ringing");
+        order_intent.putExtra("orderID", orderID);
+        order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(order_intent);
         return START_STICKY;
     }
 
@@ -60,7 +66,7 @@ public class AlarmService extends Service {
      */
     @Override
     public void onDestroy(){
-        Toast.makeText(getApplicationContext(),"DESTROYED",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"DESTROYED2",Toast.LENGTH_SHORT).show();
         mediaPlayer.stop();
     }
 
