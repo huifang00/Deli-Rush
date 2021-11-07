@@ -1,8 +1,6 @@
 package com.example.delirush.service;
 
-import android.app.AlertDialog;
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -10,6 +8,7 @@ import android.os.IBinder;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 
+import com.example.delirush.App;
 import com.example.delirush.OrderActivity;
 import com.example.delirush.R;
 
@@ -54,11 +53,20 @@ public class AlarmService extends Service {
         if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
             mediaPlayer.start();    // play the ringtone
         }
-        Intent order_intent = new Intent(this, OrderActivity.class);
-        order_intent.putExtra("ringing", "ringing");
-        order_intent.putExtra("orderID", orderID);
-        order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(order_intent);
+        if(App.getStatus() != 0){
+            Intent order_intent = new Intent(this, OrderActivity.class);
+            order_intent.putExtra("ringing", "ringing");
+            order_intent.putExtra("orderID", orderID);
+            order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(order_intent);
+        }
+        else{
+            Intent order_intent = new Intent(this, NotificationService.class);
+            order_intent.putExtra("orderID", orderID);
+            order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startService(order_intent);
+        }
+
         return START_STICKY;
     }
 
@@ -71,28 +79,4 @@ public class AlarmService extends Service {
         Toast.makeText(getApplicationContext(),"DESTROYED2",Toast.LENGTH_SHORT).show();
         mediaPlayer.stop();
     }
-
-    public void display(String orderID){
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        for(int i=0;i<OrderActivity.getOrderData().size();i++){
-            if(OrderActivity.getOrderData().get(i).getOrderID() == orderID){
-                OrderActivity.getOrderData().get(i).setOrderStatus("ON MY WAY");
-                break;
-            }
-        }
-        String msg = "Food order ID: " + orderID + " ready to be collected.";
-        builder1.setMessage(msg);
-
-        builder1.setPositiveButton(
-                "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        mediaPlayer.stop();
-                    }
-                });
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-        }
-
 }

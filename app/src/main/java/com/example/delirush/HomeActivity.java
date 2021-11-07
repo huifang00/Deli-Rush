@@ -75,16 +75,15 @@ public class HomeActivity extends AppCompatActivity {
         HomeActivity.closeDrawer(drawerLayout);
     }
 
-    public void onSelectChinese(View view){
-        Intent chinese_intent = new Intent(this, PlaceOrderActivity.class);
-        startActivity(chinese_intent);
+    public void onSelectChinese(View view) {
+        // navigate to the chinese stall food menu
     }
 
     public void onSelectMalay(View view){
-
+        // navigate to the malay stall food menu
     }
 
     public void onSelectBeverages(View view){
-
+        // navigate to the beverage stall food menu
     }
 }

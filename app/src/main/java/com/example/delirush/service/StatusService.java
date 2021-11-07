@@ -12,12 +12,14 @@ import com.example.delirush.OrderListData;
 import java.util.ArrayList;
 
 public class StatusService extends Service {
+    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
+    
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
+
     @Override
     public void onCreate() {
         super.onCreate();

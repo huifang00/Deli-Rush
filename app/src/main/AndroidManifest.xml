@@ -8,16 +8,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DeliRush" >
-        <activity
-            android:name=".PlaceOrderActivity"
-            android:exported="true" />
+        android:theme="@style/Theme.DeliRush"
+        android:name=".App">
         <activity
             android:name=".CartActivity"
             android:exported="true" />
         <activity
             android:name=".OrderActivity"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".HomeActivity"
             android:exported="true" />
@@ -39,6 +37,8 @@
             android:exported="false" />
         <service
             android:name=".service.StatusService"
+            android:exported="false" />
+        <service android:name=".service.NotificationService"
             android:exported="false" />
     </application>
 

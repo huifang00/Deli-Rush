@@ -1,13 +1,19 @@
 package com.example.delirush;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -116,10 +122,5 @@ public class OrderActivity extends AppCompatActivity {
                 });
         AlertDialog alert11 = builder1.create();
         alert11.show();
-    }
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        moveTaskToBack(true);
     }
 }
