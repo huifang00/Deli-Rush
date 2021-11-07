@@ -1,26 +1,20 @@
 package com.example.delirush;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.OrderAdapter;
 import com.example.delirush.service.AlarmService;
+import com.example.delirush.service.StatusService;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -31,7 +25,6 @@ public class OrderActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     // make the order data global to the service
     private static ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
-    private String orderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +64,8 @@ public class OrderActivity extends AppCompatActivity {
         String ringing = extras.getString("ringing");
         if(ringing.equals("ringing")){
             display(orderID);
+            extras.remove("orderID");
+            extras.remove("ringing");
         }
     }
 
@@ -110,12 +105,19 @@ public class OrderActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         for(int i=0;i<OrderActivity.getOrderData().size();i++){
                             if(OrderActivity.getOrderData().get(i).getOrderID().equals(orderID)){
-                                OrderActivity.getOrderData().get(i).setOrderStatus("ON MY WAY");
+                                OrderActivity.getOrderData().get(i).setOrderStatus("On My Way");
+                                RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
+                                OrderAdapter adapter = new OrderAdapter(orderData);
+                                orderRecyclerView.setHasFixedSize(true);
+                                orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                orderRecyclerView.setAdapter(adapter);
                                 break;
                             }
                         }
-                        // update the latest status
-                        startActivity(new Intent(getApplicationContext(),OrderActivity.class));
+//                        update the order status to on the way
+//                        startService(new Intent(getApplicationContext(), OrderActivity.class).
+//                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        startService(new Intent(getApplicationContext(), StatusService.class));
                         stopService(new Intent(getApplicationContext(), AlarmService.class));
                         dialog.dismiss();
                     }

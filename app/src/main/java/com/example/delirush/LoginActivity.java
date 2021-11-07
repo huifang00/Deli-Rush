@@ -72,10 +72,11 @@ public class LoginActivity extends AppCompatActivity {
             // if the id matches with the password, proceed to next page
             else {
                 ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
-                orderData.add(new OrderListData("0", "Chinese", "Collected"));
-                orderData.add(new OrderListData("1", "Malay", "Collected"));
+                orderData.add(new OrderListData("1", "Beverage", "Collected"));
+                orderData.add(new OrderListData("2", "Malay", "Collected"));
                 OrderActivity.setOrderData(orderData);
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class).
+                        setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
 
         }

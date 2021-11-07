@@ -34,7 +34,8 @@ public class NotificationService extends Service {
     public void showNotifications(String orderID) {
         final String CHANNEL_ID = "001";
         final String msg = "Food order ID: " + orderID + " ready to be collected.";
-        Intent order_intent = new Intent(this, OrderActivity.class);
+        Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         order_intent.putExtra("orderID", orderID);
         order_intent.putExtra("ringing", "ringing");
         PendingIntent contentIntent = PendingIntent.getActivity(this, 1, order_intent, PendingIntent.FLAG_UPDATE_CURRENT);

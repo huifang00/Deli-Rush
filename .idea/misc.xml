@@ -6,17 +6,26 @@
         <entry key="..\:/Users/HuiFang/.gradle/caches/transforms-3/255d63c0f9f8f5d12ab3191ffb377750/transformed/core-1.5.0/res/layout/custom_dialog.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable/border.xml" value="0.20052083333333334" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_cart.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_chinese_stall.xml" value="0.2673716012084592" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_collect_dialog.xml" value="0.12409420289855072" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_dialog.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_example_dialog.xml" value="0.12409420289855072" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_home.xml" value="0.1" />
-        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_order.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_place_order.xml" value="0.12273550724637682" />
-        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/cart_list.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_quantity_dialog.xml" value="0.4270205066344994" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/alert_dialog.xml" value="0.22" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/cart_list.xml" value="0.1" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/drawer_list.xml" value="0.15353260869565216" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/item_drawer_main.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/main_nav_drawer.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/main_toolbar.xml" value="0.1" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/menu_list.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/order_list.xml" value="0.15353260869565216" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/order_list_main.xml" value="0.1118659420289855" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/toolbar.xml" value="0.11730072463768115" />
       </map>
     </option>
   </component>

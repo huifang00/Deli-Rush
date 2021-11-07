@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CartActivity"
-    android:background="#FFF9E6"
+    android:background="@color/light_yellow"
     android:id="@+id/drawer_layout">
 
     <LinearLayout
@@ -14,29 +14,82 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include
-            layout="@layout/main_toolbar"/>
+            layout="@layout/toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="ID" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".6"
+                android:orientation="vertical"
+                android:background="@drawable/border">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="ORDER"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".3"
+                android:background="@drawable/border">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TOTAL"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/orderRecyclerView"
+            android:id="@+id/cartRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             tools:listitem="@layout/cart_list">
         </androidx.recyclerview.widget.RecyclerView>
-        <RelativeLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            >
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:onClick="onPlaceOrder"
-                android:text="Place Order" />
-        </RelativeLayout>
+                android:text="Place Order"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -45,7 +98,7 @@
         android:layout_gravity="start"
         android:background="@color/white">
         <include
-            layout="@layout/main_nav_drawer"/>
+            layout="@layout/nav_drawer"/>
     </RelativeLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

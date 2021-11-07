@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity"
-    android:background="#FFF9E6"
+    android:background="@color/light_yellow"
     android:id="@+id/drawer_layout">
 
     <LinearLayout
@@ -14,14 +14,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include
-            layout="@layout/main_toolbar"/>
+            layout="@layout/toolbar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:id="@+id/orderRecyclerView"
-            tools:listitem="@layout/order_list_main">
+            tools:listitem="@layout/order_list">
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
@@ -31,7 +31,7 @@
         android:layout_gravity="start"
         android:background="@color/white">
 
-        <include layout="@layout/main_nav_drawer" />
+        <include layout="@layout/nav_drawer" />
     </RelativeLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

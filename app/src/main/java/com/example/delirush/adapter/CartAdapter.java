@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delirush.CartListData;
-import com.example.delirush.OrderListData;
 import com.example.delirush.R;
 
 import java.util.ArrayList;
@@ -20,9 +18,10 @@ import java.util.ArrayList;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     private ArrayList<CartListData> cartData;
 
-//    public CartAdapter(ArrayList<OrderListData>  orderData) {
-//        this.orderData = orderData;
-//    }
+    // Create constructor
+    public CartAdapter(ArrayList<CartListData> cartData){
+        this.cartData = cartData;
+    }
 
     @NonNull
     @Override
@@ -35,7 +34,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        final CartListData myListData = cartData.get(position);
+        final CartListData myListData = cartData.get(position);
         holder.foodIndex.setText(cartData.get(position).getFoodIndex());
         holder.food.setText(cartData.get(position).getFood());
         holder.quantity.setText(cartData.get(position).getQuatity());
@@ -43,26 +42,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         holder.linearlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: " + Integer.toString(position) ,Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(),"click on item: " ,Toast.LENGTH_LONG).show();
             }
         });
     }
-
-//    @Override
-//    public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, int position) {
-//        ArrayList<OrderListData>()
-//        ArrayList<OrderListData> cartData = new ArrayList<OrderListData>();
-//        final OrderListData myListData = orderData.get(position);
-//        holder.orderID.setText(orderData.get(position).getOrderID());
-//        holder.orderFoodStall.setText(orderData.get(position).getOrderFoodStall());
-//        holder.orderStatus.setText(orderData.get(position).getOrderStatus());
-//        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(view.getContext(),"click on item: "+myListData.getOrderID(),Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
     @Override
     public int getItemCount() {

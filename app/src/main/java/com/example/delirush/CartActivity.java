@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
+import com.example.delirush.adapter.OrderAdapter;
 import com.example.delirush.service.StatusService;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class CartActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
+    static ArrayList<CartListData> cartList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,23 @@ public class CartActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        RecyclerView cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
+        // Clear cart list
+        cartList.clear();
+
+        // Add menu item in cart list
+        cartList.add(new CartListData("1", "Chicken Rice", "1", "RM5.00"));
+        cartList.add(new CartListData("2", "Mineral Water", "1", "RM1.50"));
+
+        // Initialize adpater
+        CartAdapter adapter = new CartAdapter(cartList);
+
+        // Set layout manager
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Set adapter
+        cartRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -61,11 +81,11 @@ public class CartActivity extends AppCompatActivity {
         // update the latest order id with add 1 of previous order
         // this should be update from food seller side as well
         // the order id should be generated randomly from database
-        // however food seller side waas not implemented
+        // however food seller side was not implemented
         int id = Integer.parseInt(orderData.get(0).getOrderID())+1;
         Collections.reverse(orderData);
         String orderID = String.valueOf(id);
-        orderData.add(new OrderListData(orderID, "Indian", "Order Placed"));
+        orderData.add(new OrderListData(orderID, "Chinese", "Order Placed"));
         OrderActivity.setOrderData(orderData);
         new Thread(new Runnable() {
             public void run() {
@@ -73,8 +93,11 @@ public class CartActivity extends AppCompatActivity {
                     // update the status to ready after 5 seconds
                     // (This should be updated from food seller, but food seller was not implemented yet
                     TimeUnit.MILLISECONDS.sleep(5000);
-                    System.out.println(orderData.get(0));
-                    orderData.get(0).setOrderStatus("Ready");
+                    for(int i=0;i<OrderActivity.getOrderData().size();i++) {
+                        if (OrderActivity.getOrderData().get(i).getOrderID().equals(orderID)) {
+                            OrderActivity.getOrderData().get(i).setOrderStatus("Ready");
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -82,6 +105,7 @@ public class CartActivity extends AppCompatActivity {
         }).start();
         // pass the position showing in the list
         startService(new Intent(getApplicationContext(), StatusService.class));
-        startActivity(new Intent(getApplicationContext(),OrderActivity.class));
+        startActivity(new Intent(getApplicationContext(), OrderActivity.class).
+                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

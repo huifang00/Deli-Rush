@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.delirush.App;
 import com.example.delirush.OrderActivity;
+import com.example.delirush.QuantityDialog;
 import com.example.delirush.R;
 
 public class AlarmService extends Service {
@@ -54,7 +55,8 @@ public class AlarmService extends Service {
             mediaPlayer.start();    // play the ringtone
         }
         if(App.getStatus() != 0){
-            Intent order_intent = new Intent(this, OrderActivity.class);
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             order_intent.putExtra("ringing", "ringing");
             order_intent.putExtra("orderID", orderID);
             order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -34,7 +34,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Initialize view
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_main,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_list,parent, false);
 
         return new ViewHolder(view);
     }
@@ -55,19 +55,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                         // When position is equal to 0
                         // Redirect to home page
                         activity.startActivity(new Intent(activity, HomeActivity.class).
-                                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 1:
                         // When position is equal to 1
                         // Redirect to cart page
                         activity.startActivity(new Intent(activity, CartActivity.class).
-                                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 2:
                         // When position is equal to 2
                         // Redirect to order page
                         activity.startActivity(new Intent(activity, OrderActivity.class).
-                                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 3:
                         // When position is equal to 3

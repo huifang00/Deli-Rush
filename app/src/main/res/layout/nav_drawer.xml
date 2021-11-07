@@ -35,7 +35,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:layout_marginTop="8dp"
-            tools:listitem="@layout/item_drawer_main"
+            tools:listitem="@layout/drawer_list"
             android:background="@color/white"/>
 
 
