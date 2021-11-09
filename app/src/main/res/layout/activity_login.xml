@@ -8,6 +8,30 @@
     android:background="@drawable/background_login">
 
     <TextView
+        android:id="@+id/appName1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DELI"
+        android:textColor="@color/pink_red"
+        android:textSize="55sp"
+        app:layout_constraintBottom_toTopOf="@+id/staff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.415" />
+
+    <TextView
+        android:id="@+id/appName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RUSH"
+        android:textColor="@color/black"
+        android:textSize="55sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appName1" />
+
+    <TextView
         android:id="@+id/staff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,17 +96,6 @@
             android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-<!--    <EditText-->
-<!--        android:id="@+id/editPassword"-->
-<!--        android:layout_width="140dp"-->
-<!--        android:layout_height="43dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:inputType="textPassword"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/password"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/editId" />-->
 
     <Button
         android:id="@+id/loginbtn"
@@ -91,8 +104,8 @@
         android:layout_marginTop="32dp"
         android:onClick="onLogIn"
         android:text="Log In"
+        android:backgroundTint="@color/maroon_red"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField" />
 

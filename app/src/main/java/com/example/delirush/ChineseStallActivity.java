@@ -6,9 +6,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.MenuAdapter;
@@ -45,6 +47,12 @@ public class ChineseStallActivity extends AppCompatActivity{
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        // retrieve the user id
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        String id = sharedPreferences.getString("userID", "");
+        TextView userID = findViewById(R.id.userID);
+        userID.setText(id);
 
         createMenu();
         Bundle extras = getIntent().getExtras();

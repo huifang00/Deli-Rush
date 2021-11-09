@@ -7,16 +7,42 @@
     tools:context=".MainActivity"
     android:background="@drawable/background_main">
 
+    <TextView
+        android:id="@+id/appName1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DELI"
+        android:textColor="@color/pink_red"
+        android:textSize="45sp"
+        app:layout_constraintBottom_toTopOf="@+id/customer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.585" />
+
+    <TextView
+        android:id="@+id/appName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RUSH"
+        android:textColor="@color/black"
+        android:textSize="45sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appName1" />
+
     <Button
         android:id="@+id/customer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onCustomer"
         android:text="Customer Account"
-        app:layout_constraintBottom_toTopOf="@+id/seller"
+        android:backgroundTint="@color/maroon_red"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
 
     <Button
         android:id="@+id/seller"
@@ -24,9 +50,11 @@
         android:layout_height="wrap_content"
         android:onClick="onSeller"
         android:text="Seller Account"
+        android:backgroundTint="@color/maroon_red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/customer" />
+        app:layout_constraintTop_toBottomOf="@+id/customer"
+        app:layout_constraintVertical_bias="0.127" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

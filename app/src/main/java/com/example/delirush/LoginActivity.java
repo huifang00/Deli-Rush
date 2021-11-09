@@ -1,7 +1,11 @@
 package com.example.delirush;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +29,20 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        TextView appName1 = findViewById(R.id.appName1);
+
+        Typeface typeface1 = ResourcesCompat.getFont(
+                this,
+                R.font.permanentmarker_regular);
+        appName1.setTypeface(typeface1);
+
+        TextView appName2 = findViewById(R.id.appName2);
+
+        Typeface typeface2 = ResourcesCompat.getFont(
+                this,
+                R.font.permanentmarker_regular);
+        appName2.setTypeface(typeface2);
     }
 
     public void onLogIn(View view) {
@@ -75,6 +93,16 @@ public class LoginActivity extends AppCompatActivity {
                 orderData.add(new OrderListData("1", "Beverage", "Collected"));
                 orderData.add(new OrderListData("2", "Malay", "Collected"));
                 OrderActivity.setOrderData(orderData);
+                // store data into SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
+
+                // editor to edit the file
+                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                // store the key and value as the data fetched
+                myEdit.putString("userID",editId.getText().toString());
+
+                // apply the changes
+                myEdit.commit();
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class).
                         setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }

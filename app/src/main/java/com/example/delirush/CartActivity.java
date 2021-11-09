@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
@@ -50,6 +52,12 @@ public class CartActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        // retrieve the user id
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        String id = sharedPreferences.getString("userID", "");
+        TextView userID = findViewById(R.id.userID);
+        userID.setText(id);
 
         RecyclerView cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
         // Clear cart list
