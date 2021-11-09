@@ -3,6 +3,7 @@ package com.example.delirush;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LoginActivity extends AppCompatActivity {
     private int failed = 0;
@@ -24,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         String id = "123456";
         String password = "pw123";
     }
+    private ArrayList<OrderListData> orderData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +92,15 @@ public class LoginActivity extends AppCompatActivity {
             }
             // if the id matches with the password, proceed to next page
             else {
-                ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
-                orderData.add(new OrderListData("1", "Beverage", "Collected"));
-                orderData.add(new OrderListData("2", "Malay", "Collected"));
-                OrderActivity.setOrderData(orderData);
+                orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
+                // avoid null pointer exception
+                if(orderData == null){
+                    orderData = new ArrayList<OrderListData>();
+                    orderData.add(new OrderListData("1", "Beverage", "Collected"));
+                    orderData.add(new OrderListData("2", "Malay", "Collected"));
+                    Collections.reverse(orderData);
+                    PrefConfig.writeListInPref(getApplicationContext(), orderData);
+                }
                 // store data into SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
 

@@ -28,6 +28,8 @@ public class CartActivity extends AppCompatActivity {
     ImageView btMenu;
     RecyclerView recyclerView;
     static ArrayList<CartListData> cartList = new ArrayList<>();
+//    ArrayList<OrderListData> orderData;
+    private ArrayList<OrderListData> orderData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class CartActivity extends AppCompatActivity {
 
         // Set adapter
         cartRecyclerView.setAdapter(adapter);
+        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
     }
 
     @Override
@@ -85,27 +88,35 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void onPlaceOrder(View view) {
-        ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
         // update the latest order id with add 1 of previous order
         // this should be update from food seller side as well
         // the order id should be generated randomly from database
         // however food seller side was not implemented
-        int id = Integer.parseInt(orderData.get(0).getOrderID())+1;
+        int id;
+        if(orderData.get(0) == null)
+            id = 0;
+        else
+            id = Integer.parseInt(orderData.get(0).getOrderID())+1;
         Collections.reverse(orderData);
         String orderID = String.valueOf(id);
         orderData.add(new OrderListData(orderID, "Chinese", "Order Placed"));
-        OrderActivity.setOrderData(orderData);
+        Collections.reverse(orderData);
+        PrefConfig.writeListInPref(getApplicationContext(), orderData);
         new Thread(new Runnable() {
             public void run() {
                 try {
                     // update the status to ready after 5 seconds
                     // (This should be updated from food seller, but food seller was not implemented yet
                     TimeUnit.MILLISECONDS.sleep(5000);
-                    for(int i=0;i<OrderActivity.getOrderData().size();i++) {
-                        if (OrderActivity.getOrderData().get(i).getOrderID().equals(orderID)) {
-                            OrderActivity.getOrderData().get(i).setOrderStatus("Ready");
+                    int i = 0;
+                    for(i=0;i<orderData.size();i++) {
+                        if (orderData.get(i).getOrderID().equals(orderID)) {
+                            orderData.get(i).setOrderStatus("Ready");
+                            PrefConfig.writeListInPref(getApplicationContext(), orderData);
+                            break;
                         }
                     }
+                    orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(getApplicationContext());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

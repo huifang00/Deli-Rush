@@ -8,12 +8,13 @@ import androidx.annotation.Nullable;
 
 import com.example.delirush.OrderActivity;
 import com.example.delirush.OrderListData;
+import com.example.delirush.PrefConfig;
 
 import java.util.ArrayList;
 
 public class StatusService extends Service {
-    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
-    
+//    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
+    private ArrayList<OrderListData> orderData;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -23,6 +24,7 @@ public class StatusService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
     }
 
     @Override
@@ -31,22 +33,22 @@ public class StatusService extends Service {
             public void run() {
                 boolean match_collected = true;
                 // check if all order are collected status, if not then need loop the order status until ready is found
-                for(int i=0;i<OrderActivity.getOrderStatusList().size();i++){
-                    if(OrderActivity.getOrderStatusList().get(i) != "Collected"){
+                for(int i=0;i<orderData.size();i++){
+                    if(orderData.get(i).getOrderStatus() != "Collected"){
                         match_collected = false;
                         break;
                     }
                 }
-
-                if(!match_collected && !OrderActivity.getOrderData().isEmpty()){
+                if(!match_collected && !orderData.isEmpty()){
                     for(int position=0; position<orderData.size();position++) {
-                        if (orderData.get(position).getOrderStatus() == "Ready") {
+                        if (orderData.get(position).getOrderStatus().equals("Ready")) {
                             intentAlarm(position);
                             break;
                         }
                         if(position == orderData.size()-1) {
                             position = -1;   // loop again until ready is found
-                            orderData = OrderActivity.getOrderData();   // update the data
+                            // read again the orderData
+                            orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(getApplicationContext());;   // update the data
                         }
                     }
                 }

@@ -26,13 +26,15 @@ public class OrderActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
-    // make the order data global to the service
-    private static ArrayList<OrderListData> orderData = new ArrayList<OrderListData>();
+    private ArrayList<OrderListData> orderData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        // read from shared preferences
+        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
 
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -85,17 +87,18 @@ public class OrderActivity extends AppCompatActivity {
         HomeActivity.closeDrawer(drawerLayout);
     }
 
-    public static ArrayList<OrderListData> getOrderData() {
-        return orderData;
-    }
+//    public ArrayList<OrderListData> getOrderData() {
+//        return orderData;
+//    }
+//
+//    public void setOrderData(ArrayList<OrderListData> orderData) {
+//        this.orderData = orderData;
+//        // reverse the list of orders so the top one is always the lastest order
+//        Collections.reverse(orderData);
+//        PrefConfig.writeListInPref(getApplicationContext(), orderData);
+//    }
 
-    public static void setOrderData(ArrayList<OrderListData> orderData) {
-        OrderActivity.orderData = orderData;
-        // reverse the list of orders so the top one is always the lastest order
-        Collections.reverse(orderData);
-    }
-
-    public static ArrayList<String> getOrderStatusList(){
+    public ArrayList<String> getOrderStatusList(){
         ArrayList<String> orderStatus = new ArrayList<String>();
         for(int i=0;i<orderData.size();i++){
             orderStatus.add(orderData.get(i).getOrderStatus());
@@ -112,11 +115,12 @@ public class OrderActivity extends AppCompatActivity {
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        for(int i=0;i<OrderActivity.getOrderData().size();i++){
-                            if(OrderActivity.getOrderData().get(i).getOrderID().equals(orderID)){
-                                OrderActivity.getOrderData().get(i).setOrderStatus("On My Way");
+                        for(int i=0;i<orderData.size();i++){
+                            if(orderData.get(i).getOrderID().equals(orderID)){
+                                orderData.get(i).setOrderStatus("On My Way");
                                 RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
                                 OrderAdapter adapter = new OrderAdapter(orderData);
+                                PrefConfig.writeListInPref(getApplicationContext(), orderData);
                                 orderRecyclerView.setHasFixedSize(true);
                                 orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 orderRecyclerView.setAdapter(adapter);

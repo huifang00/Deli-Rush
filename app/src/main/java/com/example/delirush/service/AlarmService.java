@@ -10,10 +10,14 @@ import androidx.annotation.Nullable;
 
 import com.example.delirush.App;
 import com.example.delirush.OrderActivity;
+import com.example.delirush.OrderListData;
+import com.example.delirush.PrefConfig;
 import com.example.delirush.QuantityDialog;
 import com.example.delirush.R;
 
-public class AlarmService extends Service {
+import java.util.ArrayList;
+
+public class AlarmService extends Service{
     //getting the sound snippet from resources folder
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
@@ -50,7 +54,6 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
         String orderID  = (String) intent.getExtras().get("orderID");
-
         if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
             mediaPlayer.start();    // play the ringtone
         }

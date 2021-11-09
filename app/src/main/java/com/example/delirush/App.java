@@ -39,14 +39,13 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
         }
 
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-        isActivityChangingConfigurations = activity.isChangingConfigurations();
-        if (--activityReferences == 0 && !isActivityChangingConfigurations) {
-            // App enters background
+        @Override
+        public void onActivityStopped(Activity activity) {
+            isActivityChangingConfigurations = activity.isChangingConfigurations();
+            if (--activityReferences == 0 && !isActivityChangingConfigurations) {
+                // App enters background
+            }
         }
-    }
 
         @Override
         public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
@@ -55,7 +54,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
-
+            System.out.println("KILLED");
         }
 
         public static int getStatus(){

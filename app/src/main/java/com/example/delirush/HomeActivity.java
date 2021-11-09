@@ -30,12 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     static ArrayList<String> arrayList = new ArrayList<>();
     MainAdapter adapter;
-
-
-
-    // We can then use the data
-//    name.setText(s1);
-//    age.setText(String.valueOf(a));
+    private ArrayList<OrderListData> orderData;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
         // Check condition
@@ -85,6 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
         userID.setText(id);
+        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
     }
 
     @Override
