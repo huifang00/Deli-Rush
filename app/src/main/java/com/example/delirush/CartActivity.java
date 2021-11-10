@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
-import com.example.delirush.adapter.OrderAdapter;
-import com.example.delirush.service.StatusService;
+import com.example.delirush.service.Status_Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,7 +122,7 @@ public class CartActivity extends AppCompatActivity {
             }
         }).start();
         // pass the position showing in the list
-        startService(new Intent(getApplicationContext(), StatusService.class));
+        startService(new Intent(getApplicationContext(), Status_Service.class));
         startActivity(new Intent(getApplicationContext(), OrderActivity.class).
                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }

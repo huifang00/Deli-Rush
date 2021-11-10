@@ -13,13 +13,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.OrderAdapter;
-import com.example.delirush.service.AlarmService;
-import com.example.delirush.service.StatusService;
+import com.example.delirush.service.Alarm_Service;
+import com.example.delirush.service.Notification_Service;
+import com.example.delirush.service.Status_Service;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class OrderActivity extends AppCompatActivity {
     //Initialize variable
@@ -130,8 +129,9 @@ public class OrderActivity extends AppCompatActivity {
 //                        update the order status to on the way
 //                        startService(new Intent(getApplicationContext(), OrderActivity.class).
 //                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                        startService(new Intent(getApplicationContext(), StatusService.class));
-                        stopService(new Intent(getApplicationContext(), AlarmService.class));
+                        startService(new Intent(getApplicationContext(), Status_Service.class));
+                        stopService(new Intent(getApplicationContext(), Alarm_Service.class));
+                        stopService(new Intent(getApplicationContext(), Notification_Service.class));
                         dialog.dismiss();
                     }
                 });

@@ -3,16 +3,14 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 
-import com.example.delirush.OrderActivity;
 import com.example.delirush.OrderListData;
 import com.example.delirush.PrefConfig;
 
 import java.util.ArrayList;
 
-public class StatusService extends Service {
+public class Status_Service extends Service {
 //    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
     private ArrayList<OrderListData> orderData;
     @Nullable
@@ -55,7 +53,7 @@ public class StatusService extends Service {
             }
 
             private void intentAlarm(int position) {
-                Intent intent_alarm = new Intent(getApplicationContext(), AlarmService.class);
+                Intent intent_alarm = new Intent(getApplicationContext(), Alarm_Service.class);
                 intent_alarm.putExtra("orderID", orderData.get(position).getOrderID());
                 startService(intent_alarm);
             }

@@ -1,6 +1,5 @@
 package com.example.delirush.service;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,7 +13,8 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.delirush.OrderActivity;
 import com.example.delirush.R;
 
-public class NotificationService extends Service {
+public class Notification_Service extends Service {
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -31,7 +31,7 @@ public class NotificationService extends Service {
         return START_STICKY;
     }
 
-    public void showNotifications(String orderID) {
+    private void showNotifications(String orderID) {
         final String CHANNEL_ID = "001";
         final String msg = "Food order ID: " + orderID + " ready to be collected.";
         Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
@@ -45,11 +45,11 @@ public class NotificationService extends Service {
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
 
-            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID);
+            android.app.Notification.Builder builder = new android.app.Notification.Builder(this, CHANNEL_ID);
             builder.setSmallIcon(R.mipmap.ic_launcher)
 //                    .setContentText(msg)
                     .setContentTitle(msg)
-                    .setPriority(Notification.PRIORITY_DEFAULT)
+                    .setPriority(android.app.Notification.PRIORITY_DEFAULT)
                     .setContentIntent(contentIntent)
                     .setAutoCancel(true);   // when click the notification the notification is disappear
 
@@ -59,14 +59,15 @@ public class NotificationService extends Service {
 
         } else {
             // we wil write code for bellow area
-            Notification.Builder builder = new Notification.Builder(this);
+            android.app.Notification.Builder builder = new android.app.Notification.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentText("This is my notification")
                     .setContentTitle("This is title")
-                    .setPriority(Notification.PRIORITY_DEFAULT);
+                    .setPriority(android.app.Notification.PRIORITY_DEFAULT);
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
             notificationManagerCompat.notify(001, builder.build());
         }
     }
+
 }

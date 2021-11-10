@@ -13,12 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliRush">
         <activity
-            android:name=".CollectDialog"
-            android:exported="true" />
-        <activity
-            android:name=".QuantityDialog"
-            android:exported="true" />
-        <activity
             android:name=".ChineseStallActivity"
             android:exported="true" />
         <activity
@@ -44,13 +38,13 @@
         </activity>
 
         <service
-            android:name=".service.AlarmService"
+            android:name=".service.Alarm_Service"
             android:exported="false" />
         <service
-            android:name=".service.StatusService"
+            android:name=".service.Status_Service"
             android:exported="false" />
         <service
-            android:name=".service.NotificationService"
+            android:name=".service.Notification_Service"
             android:exported="false" />
     </application>
 

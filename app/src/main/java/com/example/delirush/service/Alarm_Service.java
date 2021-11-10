@@ -10,14 +10,9 @@ import androidx.annotation.Nullable;
 
 import com.example.delirush.App;
 import com.example.delirush.OrderActivity;
-import com.example.delirush.OrderListData;
-import com.example.delirush.PrefConfig;
-import com.example.delirush.QuantityDialog;
 import com.example.delirush.R;
 
-import java.util.ArrayList;
-
-public class AlarmService extends Service{
+public class Alarm_Service extends Service{
     //getting the sound snippet from resources folder
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
@@ -36,7 +31,7 @@ public class AlarmService extends Service{
      */
     @Override
     public void onCreate() {
-        stopService(new Intent(getApplicationContext(),StatusService.class));
+        stopService(new Intent(getApplicationContext(), Status_Service.class));
         super.onCreate();
         mediaPlayer = MediaPlayer.create(this, R.raw.ringtone);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -66,7 +61,7 @@ public class AlarmService extends Service{
             startActivity(order_intent);
         }
         else{
-            Intent order_intent = new Intent(this, NotificationService.class);
+            Intent order_intent = new Intent(this, Notification_Service.class);
             order_intent.putExtra("orderID", orderID);
             order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startService(order_intent);

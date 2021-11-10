@@ -6,8 +6,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,9 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.delirush.adapter.MainAdapter;
-import com.example.delirush.adapter.OrderAdapter;
-import com.example.delirush.service.AlarmService;
-import com.example.delirush.service.StatusService;
 
 import java.util.ArrayList;
 
