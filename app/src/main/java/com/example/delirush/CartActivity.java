@@ -27,14 +27,17 @@ public class CartActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
-    static ArrayList<CartListData> cartList = new ArrayList<>();
-//    ArrayList<OrderListData> orderData;
+    private ArrayList<CartListData> cartData;
     private ArrayList<OrderListData> orderData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        // read order data & cart data
+        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
+        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
 
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -64,14 +67,13 @@ public class CartActivity extends AppCompatActivity {
         RecyclerView cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
 
         // Initialize adpater
-        CartAdapter adapter = new CartAdapter(cartList);
+        CartAdapter adapter = new CartAdapter(cartData);
 
         // Set layout manager
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Set adapter
         cartRecyclerView.setAdapter(adapter);
-        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
     }
 
     @Override
@@ -82,19 +84,21 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void onPlaceOrder(View view) {
-        if(cartList.isEmpty()) {
+        if(cartData.isEmpty()) {
             Toast.makeText(this, "Cart List is empty", Toast.LENGTH_SHORT).show();
             return;
         }
         // clear the cart list
-        cartList.clear();
+        cartData.clear();
+        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+
         // update the latest order id with add 1 of previous order
         // this should be update from food seller side as well
         // the order id should be generated randomly from database
         // however food seller side was not implemented
         int id;
-        if(orderData.get(0) == null)
-            id = 0;
+        if(orderData.isEmpty())
+            id = 1;
         else
             id = Integer.parseInt(orderData.get(0).getOrderID())+1;
         Collections.reverse(orderData);

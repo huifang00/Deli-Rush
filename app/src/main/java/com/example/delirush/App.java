@@ -54,7 +54,6 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
-            System.out.println("KILLED");
         }
 
         public static int getStatus(){

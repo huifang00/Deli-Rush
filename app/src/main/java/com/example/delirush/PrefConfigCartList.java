@@ -3,6 +3,7 @@ package com.example.delirush;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -10,9 +11,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrefConfigOrderList {
-    private static String LIST_KEY = "order_list";
-    public static void writeListInPref(Context context, List<OrderListData> list){
+public class PrefConfigCartList {
+    private static String LIST_KEY = "cart_list";
+    public static void writeListInPref(Context context, List<CartListData> list){
         Gson gson = new Gson();
         String jsonString = gson.toJson(list);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -21,12 +22,12 @@ public class PrefConfigOrderList {
         editor.apply();
     }
 
-    public static List<OrderListData> readListFromPref(Context context){
+    public static List<CartListData> readListFromPref(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(LIST_KEY, "");
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<OrderListData>>() {}.getType();
-        List<OrderListData> list = gson.fromJson(jsonString, type);
+        Type type = new TypeToken<ArrayList<CartListData>>() {}.getType();
+        List<CartListData> list = gson.fromJson(jsonString, type);
         return list;
     }
 }

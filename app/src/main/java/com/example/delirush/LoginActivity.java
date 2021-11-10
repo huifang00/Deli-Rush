@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = "pw123";
     }
     private ArrayList<OrderListData> orderData;
-
+    private ArrayList<CartListData> cartData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,15 +91,22 @@ public class LoginActivity extends AppCompatActivity {
             }
             // if the id matches with the password, proceed to next page
             else {
+                // take order data from memory(shared preference)
                 orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
                 // avoid null pointer exception
                 if(orderData == null){
                     orderData = new ArrayList<OrderListData>();
-                    orderData.add(new OrderListData("1", "Beverage", "Collected"));
-                    orderData.add(new OrderListData("2", "Malay", "Collected"));
-                    Collections.reverse(orderData);
                     PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
                 }
+
+                // take cart data from memory(shared preference)
+                cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
+                // avoid null pointer exception
+                if(cartData == null){
+                    cartData = new ArrayList<CartListData>();
+                    PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+                }
+
                 // store data into SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
 

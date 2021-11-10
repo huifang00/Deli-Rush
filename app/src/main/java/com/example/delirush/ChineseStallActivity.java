@@ -25,11 +25,15 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
     static ArrayList<String> chinese_menu = new ArrayList<>();
     static String price = "";
     static String food = "";
+    private ArrayList<CartListData> cartData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chinese_stall);
 
+        // read cart Data
+        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
@@ -107,23 +111,24 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         boolean found = false;
         int add_on = Integer.parseInt(quantity);
         float total = Float.parseFloat(price);
-        for(int i=0; i<CartActivity.cartList.size();i++){
-            if(CartActivity.cartList.get(i).getFood().equals(food)){
-                int prev_qty = Integer.parseInt(CartActivity.cartList.get(i).getQuatity());
+        for(int i=0; i<cartData.size();i++){
+            if(cartData.get(i).getFood().equals(food)){
+                int prev_qty = Integer.parseInt(cartData.get(i).getQuatity());
                 int new_qty = prev_qty + add_on;
                 total = new_qty * total;
-                CartActivity.cartList.get(i).setQuatity(String.valueOf(new_qty));
-                CartActivity.cartList.get(i).setTotal(df.format(total));
+                cartData.get(i).setQuatity(String.valueOf(new_qty));
+                cartData.get(i).setTotal(df.format(total));
                 found = true;
                 break;
             }
         }
         // if no previous similar item is added into cart create new row in the display cart list
         if(!found){
-            int foodIndex = CartActivity.cartList.size() + 1;
+            int foodIndex = cartData.size() + 1;
             String foodIndex_str = String.valueOf(foodIndex);
             total = add_on * total;
-            CartActivity.cartList.add(new CartListData(foodIndex_str, food, String.valueOf(add_on), df.format(total)));
+            cartData.add(new CartListData(foodIndex_str, food, String.valueOf(add_on), df.format(total)));
         }
+        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
     }
 }
