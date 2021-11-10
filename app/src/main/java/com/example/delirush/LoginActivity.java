@@ -3,7 +3,6 @@ package com.example.delirush;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -61,12 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user enter the id column
         if (id.isEmpty()) {
             // Display message toast to prompt for id input
-            Toast.makeText(LoginActivity.this, "Please enter your staff/student ID", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please enter your staff/student ID", Toast.LENGTH_SHORT).show();
         }
         // Check if user enter the password column
         else if (password.isEmpty()) {
             // Display message toast to prompt for password input
-            Toast.makeText(LoginActivity.this, "Please enter your password", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
         } else {
             // validate the id and password, check is the right password entered?
             boolean isValid = validate(id, password);
@@ -83,23 +82,23 @@ public class LoginActivity extends AppCompatActivity {
                 // if no more attempts left, disable the button
                 if (failed == 5) {
                     loginbtn.setEnabled(false);
-                    Toast.makeText(this, "No attempts left. Try again later.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "No attempts left. Try again later.", Toast.LENGTH_SHORT).show();
                 }
                 // display incorrect password message
                 else {
-                    Toast.makeText(this, "Incorrect Password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                 }
             }
             // if the id matches with the password, proceed to next page
             else {
-                orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
+                orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
                 // avoid null pointer exception
                 if(orderData == null){
                     orderData = new ArrayList<OrderListData>();
                     orderData.add(new OrderListData("1", "Beverage", "Collected"));
                     orderData.add(new OrderListData("2", "Malay", "Collected"));
                     Collections.reverse(orderData);
-                    PrefConfig.writeListInPref(getApplicationContext(), orderData);
+                    PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
                 }
                 // store data into SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);

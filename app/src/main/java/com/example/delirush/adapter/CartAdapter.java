@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,12 +37,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         holder.food.setText(cartData.get(position).getFood());
         holder.quantity.setText(cartData.get(position).getQuatity());
         holder.total.setText(cartData.get(position).getTotal());
-        holder.linearlayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: " ,Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override

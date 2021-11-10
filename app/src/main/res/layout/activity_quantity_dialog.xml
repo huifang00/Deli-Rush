@@ -34,6 +34,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
+        android:text="0"
+        android:selectAllOnFocus="true"
+        android:textColorHighlight="@color/light_gray"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />

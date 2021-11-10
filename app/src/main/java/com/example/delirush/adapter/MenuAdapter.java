@@ -69,6 +69,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
                 Intent intent = new Intent(activity, ChineseStallActivity.class).
                         setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("openDialog", "open");
+                intent.putExtra("food", menuData.get(position));
                 intent.putExtra("price", price);
                 activity.startActivity(intent);
                 // display pop up dialog to set the count

@@ -76,7 +76,7 @@ public class Alarm_Service extends Service{
      */
     @Override
     public void onDestroy(){
-        Toast.makeText(getApplicationContext(),"DESTROYED2",Toast.LENGTH_SHORT).show();
+        super.onDestroy();
         mediaPlayer.stop();
     }
 }

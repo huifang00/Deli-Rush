@@ -2,11 +2,11 @@ package com.example.delirush.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 
 import com.example.delirush.OrderListData;
-import com.example.delirush.PrefConfig;
+import com.example.delirush.PrefConfigOrderList;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class Status_Service extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
+        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Status_Service extends Service {
                         if(position == orderData.size()-1) {
                             position = -1;   // loop again until ready is found
                             // read again the orderData
-                            orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(getApplicationContext());;   // update the data
+                            orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());;   // update the data
                         }
                     }
                 }
@@ -67,6 +67,6 @@ public class Status_Service extends Service {
      */
     @Override
     public void onDestroy(){
-        Toast.makeText(getApplicationContext(),"DESTROYED1",Toast.LENGTH_SHORT).show();
+        super.onDestroy();
     }
 }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class QuantityDialog extends AppCompatDialogFragment {
     private EditText quantity;
+    private QuantityDialogListener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -23,13 +24,14 @@ public class QuantityDialog extends AppCompatDialogFragment {
         View view = layoutInflater.inflate(R.layout.activity_quantity_dialog, null);
 
         builder.setView(view)
-                .setTitle("Price per quantity: RM" + ChineseStallActivity.price)
+                .setTitle(ChineseStallActivity.food)
+                .setMessage("Price per quantity: RM" + ChineseStallActivity.price)
                 .setPositiveButton("ADD TO CART", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String edit_quantity = quantity.getText().toString();
                         dialogInterface.dismiss();
-//                        listener.applyTexts(edit_quantity);
+                        listener.applyTexts(edit_quantity);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -47,15 +49,15 @@ public class QuantityDialog extends AppCompatDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-//        try {
-//            listener = (QuantityDialogListener) context;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(context.toString() +
-//                    "must implement ExampleDialogListener");
-//        }
+        try {
+            listener = (QuantityDialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() +
+                    "must implement QuantityDialogListener");
+        }
     }
 
-//    public interface ExampleDialogListener {
-//        void applyTexts(String edit_quantity);
-//    }
+    public interface QuantityDialogListener {
+        void applyTexts(String edit_quantity);
+    }
 }

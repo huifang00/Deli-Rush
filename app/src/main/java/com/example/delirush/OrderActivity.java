@@ -33,7 +33,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         // read from shared preferences
-        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
+        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
 
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -86,17 +86,6 @@ public class OrderActivity extends AppCompatActivity {
         HomeActivity.closeDrawer(drawerLayout);
     }
 
-//    public ArrayList<OrderListData> getOrderData() {
-//        return orderData;
-//    }
-//
-//    public void setOrderData(ArrayList<OrderListData> orderData) {
-//        this.orderData = orderData;
-//        // reverse the list of orders so the top one is always the lastest order
-//        Collections.reverse(orderData);
-//        PrefConfig.writeListInPref(getApplicationContext(), orderData);
-//    }
-
     public ArrayList<String> getOrderStatusList(){
         ArrayList<String> orderStatus = new ArrayList<String>();
         for(int i=0;i<orderData.size();i++){
@@ -119,16 +108,13 @@ public class OrderActivity extends AppCompatActivity {
                                 orderData.get(i).setOrderStatus("On My Way");
                                 RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
                                 OrderAdapter adapter = new OrderAdapter(orderData);
-                                PrefConfig.writeListInPref(getApplicationContext(), orderData);
+                                PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
                                 orderRecyclerView.setHasFixedSize(true);
                                 orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 orderRecyclerView.setAdapter(adapter);
                                 break;
                             }
                         }
-//                        update the order status to on the way
-//                        startService(new Intent(getApplicationContext(), OrderActivity.class).
-//                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         startService(new Intent(getApplicationContext(), Status_Service.class));
                         stopService(new Intent(getApplicationContext(), Alarm_Service.class));
                         stopService(new Intent(getApplicationContext(), Notification_Service.class));

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
@@ -61,12 +62,6 @@ public class CartActivity extends AppCompatActivity {
         userID.setText(id);
 
         RecyclerView cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
-        // Clear cart list
-        cartList.clear();
-
-        // Add menu item in cart list
-        cartList.add(new CartListData("1", "Chicken Rice", "1", "RM5.00"));
-        cartList.add(new CartListData("2", "Mineral Water", "1", "RM1.50"));
 
         // Initialize adpater
         CartAdapter adapter = new CartAdapter(cartList);
@@ -76,7 +71,7 @@ public class CartActivity extends AppCompatActivity {
 
         // Set adapter
         cartRecyclerView.setAdapter(adapter);
-        orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(this);
+        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
     }
 
     @Override
@@ -87,6 +82,12 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void onPlaceOrder(View view) {
+        if(cartList.isEmpty()) {
+            Toast.makeText(this, "Cart List is empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // clear the cart list
+        cartList.clear();
         // update the latest order id with add 1 of previous order
         // this should be update from food seller side as well
         // the order id should be generated randomly from database
@@ -100,7 +101,7 @@ public class CartActivity extends AppCompatActivity {
         String orderID = String.valueOf(id);
         orderData.add(new OrderListData(orderID, "Chinese", "Order Placed"));
         Collections.reverse(orderData);
-        PrefConfig.writeListInPref(getApplicationContext(), orderData);
+        PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -111,11 +112,11 @@ public class CartActivity extends AppCompatActivity {
                     for(i=0;i<orderData.size();i++) {
                         if (orderData.get(i).getOrderID().equals(orderID)) {
                             orderData.get(i).setOrderStatus("Ready");
-                            PrefConfig.writeListInPref(getApplicationContext(), orderData);
+                            PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
                             break;
                         }
                     }
-                    orderData = (ArrayList<OrderListData>) PrefConfig.readListFromPref(getApplicationContext());
+                    orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

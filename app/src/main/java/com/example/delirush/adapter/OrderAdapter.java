@@ -36,12 +36,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         holder.orderID.setText(orderData.get(position).getOrderID());
         holder.orderFoodStall.setText(orderData.get(position).getOrderFoodStall());
         holder.orderStatus.setText(orderData.get(position).getOrderStatus());
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: "+myListData.getOrderID(),Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override

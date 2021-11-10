@@ -24,13 +24,17 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".1">
+                android:layout_weight=".1"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="ID" />
+                    android:text="ID"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="5dp"/>
 
             </LinearLayout>
 
@@ -43,11 +47,12 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:text="ORDER"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="5dp"/>
 
             </LinearLayout>
 
@@ -60,9 +65,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TOTAL"
+                    android:text="TOTAL (RM)"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:padding="5dp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -76,18 +83,19 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            >
+            android:layout_width="match_parent">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/placeOrderBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:padding="15dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:onClick="onPlaceOrder"
                 android:text="Place Order"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:backgroundTint="@color/maroon_red"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

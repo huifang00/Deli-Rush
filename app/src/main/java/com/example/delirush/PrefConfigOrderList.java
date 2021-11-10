@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrefConfig {
+public class PrefConfigOrderList {
     private static String LIST_KEY = "list_key";
     public static void writeListInPref(Context context, List<OrderListData> list){
         Gson gson = new Gson();

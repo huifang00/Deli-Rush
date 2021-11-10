@@ -11,19 +11,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.MenuAdapter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ChineseStallActivity extends AppCompatActivity{
+public class ChineseStallActivity extends AppCompatActivity implements QuantityDialog.QuantityDialogListener{
     //Initialize variable
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
     static ArrayList<String> chinese_menu = new ArrayList<>();
     static String price = "";
+    static String food = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +61,11 @@ public class ChineseStallActivity extends AppCompatActivity{
             return;
         }
         String openDialog = extras.getString("openDialog");
+        food = extras.getString("food");
         price = extras.getString("price");
         if(openDialog.equals("open")) {
             openDialog();
             extras.remove("openDialog");
-            extras.remove("price");
         }
     }
 
@@ -96,8 +97,33 @@ public class ChineseStallActivity extends AppCompatActivity{
     }
 
 
-//    @Override
-//    public void applyTexts(String username, String password) {
-//
-//    }
+    @Override
+    public void applyTexts(String quantity) {
+        if(quantity.equals("0"))
+            return;
+        DecimalFormat df = new DecimalFormat("0.00");
+        String food = ChineseStallActivity.food;
+        String price = ChineseStallActivity.price;
+        boolean found = false;
+        int add_on = Integer.parseInt(quantity);
+        float total = Float.parseFloat(price);
+        for(int i=0; i<CartActivity.cartList.size();i++){
+            if(CartActivity.cartList.get(i).getFood().equals(food)){
+                int prev_qty = Integer.parseInt(CartActivity.cartList.get(i).getQuatity());
+                int new_qty = prev_qty + add_on;
+                total = new_qty * total;
+                CartActivity.cartList.get(i).setQuatity(String.valueOf(new_qty));
+                CartActivity.cartList.get(i).setTotal(df.format(total));
+                found = true;
+                break;
+            }
+        }
+        // if no previous similar item is added into cart create new row in the display cart list
+        if(!found){
+            int foodIndex = CartActivity.cartList.size() + 1;
+            String foodIndex_str = String.valueOf(foodIndex);
+            total = add_on * total;
+            CartActivity.cartList.add(new CartListData(foodIndex_str, food, String.valueOf(add_on), df.format(total)));
+        }
+    }
 }
