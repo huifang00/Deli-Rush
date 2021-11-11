@@ -41,7 +41,7 @@ public class QuantityDialog extends AppCompatDialogFragment {
                     }
                 });
         quantity = view.findViewById(R.id.quantity);
-
+        builder.setCancelable(false);  //prevent getting dismissed by back key
         return builder.create();
     }
 

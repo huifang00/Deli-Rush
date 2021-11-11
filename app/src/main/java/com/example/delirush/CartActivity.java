@@ -1,11 +1,13 @@
 package com.example.delirush;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.service.Status_Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +32,8 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ArrayList<CartListData> cartData;
     private ArrayList<OrderListData> orderData;
+    private float total = 0;
+    private DecimalFormat df = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,13 @@ public class CartActivity extends AppCompatActivity {
 
         // Set adapter
         cartRecyclerView.setAdapter(adapter);
+
+        // calculate the total
+        TextView total_sum_text = (TextView) findViewById(R.id.total_sum_text);
+        for(int i=0;i<cartData.size();i++){
+            total+=Float.parseFloat(cartData.get(i).getTotal());
+        }
+        total_sum_text.setText(df.format(total));
     }
 
     @Override
@@ -88,14 +100,11 @@ public class CartActivity extends AppCompatActivity {
             Toast.makeText(this, "Cart List is empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        // clear the cart list
-        cartData.clear();
-        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
 
         // update the latest order id with add 1 of previous order
-        // this should be update from food seller side as well
-        // the order id should be generated randomly from database
-        // however food seller side was not implemented
+        // the order id is unique and should be generated randomly from database
+        // this should be update at the food seller side
+        // database and food seller side are not implemented yet
         int id;
         if(orderData.isEmpty())
             id = 1;
@@ -106,14 +115,41 @@ public class CartActivity extends AppCompatActivity {
         orderData.add(new OrderListData(orderID, "Chinese", "Order Placed"));
         Collections.reverse(orderData);
         PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
+        displayPaymentDialog(orderID);
+
+        // clear the cart list
+        cartData.clear();
+        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+    }
+
+    private void displayPaymentDialog(String orderID) {
+        String msg = "Payment page is not implemented yet. By assuming it is implemented, it will direct to the order page after paid successfully for the order.";
+        new AlertDialog.Builder(this)
+                .setTitle("PROCEED TO PAYMENT" + "\n" + "Total: RM " + df.format(total))
+                .setMessage(msg)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startService(new Intent(getApplicationContext(), Status_Service.class));
+                        Intent intent = new Intent(getApplicationContext(), OrderActivity.class).
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("place_clicked", "clicked");
+                        startActivity(intent);
+                        dialog.dismiss();
+                        startTimer(orderID);
+                    }
+                }).setCancelable(false)  //prevent getting dismissed by back key
+                .create().show();
+    }
+
+    private void startTimer(String orderID) {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     // update the status to ready after 5 seconds
                     // (This should be updated from food seller, but food seller was not implemented yet
                     TimeUnit.MILLISECONDS.sleep(5000);
-                    int i = 0;
-                    for(i=0;i<orderData.size();i++) {
+                    for(int i=0;i<orderData.size();i++) {
                         if (orderData.get(i).getOrderID().equals(orderID)) {
                             orderData.get(i).setOrderStatus("Ready");
                             PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
@@ -126,9 +162,5 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         }).start();
-        // pass the position showing in the list
-        startService(new Intent(getApplicationContext(), Status_Service.class));
-        startActivity(new Intent(getApplicationContext(), OrderActivity.class).
-                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

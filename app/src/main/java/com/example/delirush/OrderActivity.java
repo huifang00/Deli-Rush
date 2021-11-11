@@ -70,12 +70,17 @@ public class OrderActivity extends AppCompatActivity {
         if(extras == null){
             return;
         }
-        String orderID = extras.getString("orderID");
-        String ringing = extras.getString("ringing");
-        if(ringing.equals("ringing")){
-            display(orderID);
-            extras.remove("orderID");
-            extras.remove("ringing");
+        // the extras may have the placed_cliked key pass from cart activity
+        // so if orderID and ringing are null which are required to pass from alarm service
+        // don't run the code below it
+        if(extras.getString("orderID") != null && extras.getString("orderID") != null) {
+            String orderID = extras.getString("orderID");
+            String ringing = extras.getString("ringing");
+            if (ringing.equals("ringing")) {
+                display(orderID);
+                extras.remove("orderID");
+                extras.remove("ringing");
+            }
         }
     }
 
@@ -95,11 +100,11 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void display(String orderID){
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String msg = "Food order ID: " + orderID + " ready to be collected.";
-        builder1.setMessage(msg);
-        builder1.setCancelable(false);  //prevent getting dismissed by back key
-        builder1.setPositiveButton(
+        builder.setMessage(msg);
+        builder.setCancelable(false);  //prevent getting dismissed by back key
+        builder.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -121,7 +126,23 @@ public class OrderActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-        AlertDialog alert11 = builder1.create();
+        AlertDialog alert11 = builder.create();
         alert11.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Bundle extras = getIntent().getExtras();
+        // if placed clicked key was found (not null)
+        // if place order button is clicked and direct to order activity
+        // when back button is clicked, it should direct to the home page instead of cart page
+        if(extras.getString("place_clicked")!=null &&
+                extras.getString("place_clicked").equals("clicked")){
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            extras.remove("place_clicked");
+            return;
+        }
+        super.onBackPressed();
     }
 }
