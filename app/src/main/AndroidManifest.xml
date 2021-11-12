@@ -13,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliRush">
         <activity
-            android:name=".ChineseStallActivity"
+            android:name=".FoodStallActivity.ChineseStallActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FoodStallActivity.MalayStallActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FoodStallActivity.BeverageStallActivity"
             android:exported="true" />
         <activity
             android:name=".CartActivity"

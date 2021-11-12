@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChineseStallActivity"
+    tools:context=".FoodStallActivity.ChineseStallActivity"
     android:background="@color/light_yellow"
     android:id="@+id/drawer_layout">
 
@@ -31,16 +31,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:id="@+id/chineseView"
+                        android:id="@+id/stallView"
                         android:layout_width="match_parent"
-                        android:layout_height="273dp"
-                        app:srcCompat="@drawable/chinese" />
+                        android:layout_height="273dp"/>
                 </LinearLayout>
-<!--                <TextView-->
-<!--                    android:id="@+id/chinese_rice"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Rice"/>-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -52,23 +46,6 @@
                         tools:listitem="@layout/menu_list">
                     </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
-
-<!--                <TextView-->
-<!--                    android:id="@+id/chinese_noodle"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Noodle" />-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:scrollbars="vertical"-->
-<!--                        android:id="@+id/chinese_noodle_list"-->
-<!--                        tools:listitem="@layout/menu_list">-->
-<!--                    </androidx.recyclerview.widget.RecyclerView>-->
-<!--                </LinearLayout>-->
             </LinearLayout>
 
         </ScrollView>

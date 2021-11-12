@@ -116,9 +116,13 @@ public class LoginActivity extends AppCompatActivity {
                 // Edit user id in shared preference
                 SharedPreferences.Editor edit_userId = sharedPreferences.edit();
                 edit_userId.putString("userID",editId.getText().toString());
+                edit_userId.apply();
 
-                // apply the change of user ID
-                edit_userId.commit();
+                // Take current stall ID in the cart list
+                sharedPreferences = getSharedPreferences("stallID", MODE_PRIVATE);
+                int orderStall = sharedPreferences.getInt("stallID", -1);
+                CartActivity.setOrderStall(orderStall);
+
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class).
                         setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }

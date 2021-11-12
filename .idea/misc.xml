@@ -9,7 +9,7 @@
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable/ic_food.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/font/dancing_script_bold.xml" value="0.21458333333333332" />
-        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_cart.xml" value="0.22" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_cart.xml" value="0.6" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_chinese_stall.xml" value="0.2673716012084592" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_collect_dialog.xml" value="0.12409420289855072" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_dialog.xml" value="0.4466666666666667" />
@@ -20,6 +20,7 @@
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_order.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_place_order.xml" value="0.12273550724637682" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_quantity_dialog.xml" value="0.22" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_stall.xml" value="0.184375" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/alert_dialog.xml" value="0.22" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/cart_list.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/drawer_list.xml" value="0.15353260869565216" />
@@ -31,6 +32,8 @@
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/order_list.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/order_list_main.xml" value="0.1118659420289855" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/toolbar.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.11302083333333333" />
       </map>
     </option>
   </component>

@@ -12,6 +12,12 @@ public class App extends Application implements Application.ActivityLifecycleCal
     private boolean isActivityChangingConfigurations = false;
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        registerActivityLifecycleCallbacks(this);
+    }
+
+    @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
 
     }

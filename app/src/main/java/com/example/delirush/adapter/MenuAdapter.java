@@ -9,9 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.delirush.ChineseStallActivity;
+import com.example.delirush.FoodStallActivity.BeverageStallActivity;
+import com.example.delirush.HomeActivity;
 import com.example.delirush.MenuListData;
 import com.example.delirush.R;
+import com.example.delirush.FoodStallActivity.ChineseStallActivity;
+import com.example.delirush.FoodStallActivity.MalayStallActivity;
 
 import java.util.ArrayList;
 
@@ -56,8 +59,23 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
             @Override
             public void onClick(View v){
                 int position = holder.getAdapterPosition();
-                Intent intent = new Intent(activity, ChineseStallActivity.class).
-                        setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent;
+                switch(HomeActivity.getSelectedStall()){
+                    case 0:
+                        intent= new Intent(activity, ChineseStallActivity.class).
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        break;
+                    case 1:
+                        intent = new Intent(activity, MalayStallActivity.class).
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        break;
+                    case 2:
+                        intent = new Intent(activity, BeverageStallActivity.class).
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + HomeActivity.getSelectedStall());
+                }
                 intent.putExtra("openDialog", "open");
                 intent.putExtra("food", menuData.get(position).getFood());
                 intent.putExtra("price", menuData.get(position).getPrice());

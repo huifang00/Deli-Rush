@@ -47,7 +47,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CartListData myListData = cartData.get(position);
-        holder.foodIndex.setText(cartData.get(position).getFoodIndex());
         holder.food.setText(cartData.get(position).getFood());
         holder.quantity.setText(cartData.get(position).getQuatity());
         holder.total.setText(cartData.get(position).getTotal());
@@ -61,7 +60,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     public int getItemCount() { return cartData.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView foodIndex;
         public TextView food;
         public TextView quantity;
         public TextView total;
@@ -69,7 +67,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.foodIndex = (TextView) itemView.findViewById(R.id.foodIndex);
             this.food = (TextView) itemView.findViewById(R.id.food);
             this.quantity = (TextView) itemView.findViewById(R.id.quantity);
             this.total = (TextView) itemView.findViewById(R.id.total);

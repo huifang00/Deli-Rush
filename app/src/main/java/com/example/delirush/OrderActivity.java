@@ -21,7 +21,7 @@ import com.example.delirush.service.Status_Service;
 import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
-    //Initialize variable
+    //Declare variable
     private DrawerLayout drawerLayout;
     private ImageView btMenu;
     private RecyclerView recyclerView;

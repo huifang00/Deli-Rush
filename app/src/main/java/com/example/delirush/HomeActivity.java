@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.delirush.adapter.MainAdapter;
+import com.example.delirush.FoodStallActivity.BeverageStallActivity;
+import com.example.delirush.FoodStallActivity.ChineseStallActivity;
+import com.example.delirush.FoodStallActivity.MalayStallActivity;
 
 import java.util.ArrayList;
 
@@ -25,9 +28,10 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView btMenu;
     private RecyclerView recyclerView;
-    static ArrayList<String> arrayList = new ArrayList<>();
+    public static ArrayList<String> arrayList = new ArrayList<>();
     private MainAdapter adapter;
     private ArrayList<OrderListData> orderData;
+    private static int selectedStall = -1;
 
     /**
      * Close the drawer
@@ -90,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
      * @param view
      */
     public void onSelectChinese(View view) {
+        selectedStall = 0;
         Toast.makeText(getApplicationContext(),"Entering Chinese Food Stall",Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getApplicationContext(), ChineseStallActivity.class).
                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -100,7 +105,10 @@ public class HomeActivity extends AppCompatActivity {
      * @param view
      */
     public void onSelectMalay(View view){
+        selectedStall = 1;
         Toast.makeText(getApplicationContext(),"Entering Malay Food Stall",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), MalayStallActivity.class).
+                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     /**
@@ -108,7 +116,26 @@ public class HomeActivity extends AppCompatActivity {
      * @param view
      */
     public void onSelectBeverages(View view){
+        selectedStall = 2;
         Toast.makeText(getApplicationContext(),"Entering Beverage Stall",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), BeverageStallActivity.class).
+                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+
+    /**
+     * Getter method for retrieve private variable selectedStall
+     * @return
+     */
+    public static int getSelectedStall() {
+        return selectedStall;
+    }
+
+    /**
+     * Setter method for set private variable selectedStall
+     * @param selectedStall
+     */
+    public static void setSelectedStall(int selectedStall) {
+        HomeActivity.selectedStall = selectedStall;
     }
 
     /**
@@ -136,6 +163,7 @@ public class HomeActivity extends AppCompatActivity {
                 return;
             }
         });
+        builder.setCancelable(false);
         builder.show();
     }
 }

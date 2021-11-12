@@ -1,36 +1,46 @@
-package com.example.delirush;
+package com.example.delirush.FoodStallActivity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.delirush.CartActivity;
+import com.example.delirush.CartListData;
+import com.example.delirush.HomeActivity;
+import com.example.delirush.MenuListData;
+import com.example.delirush.PrefConfigCartList;
+import com.example.delirush.R;
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.MenuAdapter;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ChineseStallActivity extends AppCompatActivity implements QuantityDialog.QuantityDialogListener{
+public class ChineseStallActivity extends AppCompatActivity implements QuantityDialog.QuantityDialogListener {
     //Initialize variable
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
-    static ArrayList<MenuListData> chinese_menu = new ArrayList<MenuListData>();
+    private ArrayList<MenuListData> chinese_menu = new ArrayList<MenuListData>();
     static String price = "";
-    static String food = "";
+    private String food = "";
     private ArrayList<CartListData> cartData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chinese_stall);
+        setContentView(R.layout.activity_stall);
+        ImageView stallView = findViewById(R.id.stallView);
+        stallView.setBackgroundResource(R.drawable.chinese);
 
         // Read cart Data
         cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
@@ -104,38 +114,64 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
      */
     @Override
     public void applyTexts(String quantity) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        String food = ChineseStallActivity.food;
-        String price = ChineseStallActivity.price;
-        boolean found = false;
-        int new_quantity = Integer.parseInt(quantity);
-        float total = Float.parseFloat(price);
-        for(int i=0; i<cartData.size();i++){
-            if(cartData.get(i).getFood().equals(food)){
-                found = true;
-                if(new_quantity == 0){
-                    cartData.remove(i);
-                    break;
-                }
-                total = new_quantity * total;
-                cartData.get(i).setQuatity(String.valueOf(new_quantity));
-                cartData.get(i).setTotal(df.format(total));
-                break;
-            }
+        // If the text box of quantity is left empty
+        if(quantity.isEmpty()){
+            return;
         }
-        // If no previous similar item is added into cart create new row in the display cart list
-        if(!found){
-            // If the quantity selected is 0, return without doing anything
-            if(quantity.equals("0"))
-                return;
-            // Else add into the cart list
+        if(!cartData.isEmpty()){
+            if(CartActivity.getOrderStall()!=HomeActivity.getSelectedStall()){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Seems like you have selected from different stall.");
+                builder.setMessage("If proceed with this action, the previous cart will be removed.");
+                // If proceed button is clicked dismiss the dialog -> clear the cart -> add into cart
+                builder.setPositiveButton("PROCEED", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Clear the cart
+                        cartData.clear();
+                        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+                        dialog.dismiss();
+                        StallActivity.updateCart(getApplicationContext(), quantity, food, price, 0);
+                    }
+                });
+                // If cancel button is clicked dismiss the dialog and stop adding the food
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.show();
+            }
             else{
-                int foodIndex = cartData.size() + 1;
-                String foodIndex_str = String.valueOf(foodIndex);
-                total = new_quantity * total;
-                cartData.add(new CartListData(foodIndex_str, food, String.valueOf(new_quantity), df.format(total)));
+                StallActivity.updateCart(getApplicationContext(), quantity, food, price, 0);
             }
         }
-        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+        else{
+            StallActivity.updateCart(getApplicationContext(), quantity, food, price, 0);
+        }
+    }
+
+    /**
+     * Getter method for retrieve private variable price
+     * @return
+     */
+    public static String getPrice() {
+        return price;
+    }
+
+    /**
+     * Setter method for set private variable price
+     * @param price
+     */
+    public static void setPrice(String price) {
+        ChineseStallActivity.price = price;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

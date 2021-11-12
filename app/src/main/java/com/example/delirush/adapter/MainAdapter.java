@@ -100,6 +100,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                                 dialog.dismiss();
                             }
                         });
+                        builder.setCancelable(false);
                         builder.show();
                         break;
                 }
