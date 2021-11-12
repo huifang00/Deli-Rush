@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class CartActivity extends AppCompatActivity {
     private ArrayList<OrderListData> orderData;
     private float total = 0;
     private DecimalFormat df = new DecimalFormat("0.00");
-
+    private ImageView clear_cart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,24 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Open drawer
                 drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        // if clear button is clicked, clear the cart
+        clear_cart = findViewById(R.id.clear_cart);
+        // if cart is not empty, display the delete button
+        if(!cartData.isEmpty()){
+            clear_cart.setVisibility(View.VISIBLE);
+        }
+        clear_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartData.clear();
+                PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+                clear_cart.setVisibility(View.INVISIBLE);
+                // update the view immediately
+                startActivity(new Intent(getApplicationContext(), CartActivity.class).
+                        setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 

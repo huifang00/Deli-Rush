@@ -22,7 +22,7 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView recyclerView;
-    static ArrayList<String> chinese_menu = new ArrayList<>();
+    static ArrayList<MenuListData> chinese_menu = new ArrayList<MenuListData>();
     static String price = "";
     static String food = "";
     private ArrayList<CartListData> cartData;
@@ -68,7 +68,7 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         food = extras.getString("food");
         price = extras.getString("price");
         if(openDialog.equals("open")) {
-            openDialog();
+            openDialog(food);
             extras.remove("openDialog");
         }
     }
@@ -79,11 +79,11 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         chinese_menu.clear();
 
         // Add menu item in array list
-        chinese_menu.add("Chicken Rice");
-        chinese_menu.add("Fried Rice");
-        chinese_menu.add("Butter Milk Chicken Rice");
-        chinese_menu.add("Chicken Porridge");
-        chinese_menu.add("Curry Noodle");
+        chinese_menu.add(new MenuListData("Chicken Rice", "5.50"));
+        chinese_menu.add(new MenuListData("Fried Rice", "6.00"));
+        chinese_menu.add(new MenuListData("Butter Milk Chicken Rice", "6.50"));
+        chinese_menu.add(new MenuListData("Chicken Porridge", "4.50"));
+        chinese_menu.add(new MenuListData("Curry Noodle", "5.00"));
 
         // Initialize adpater
         MenuAdapter adapter = new MenuAdapter(this, chinese_menu);
@@ -95,39 +95,45 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         menu_recyclerView.setAdapter(adapter);
     }
 
-    private void openDialog() {
-        QuantityDialog quantityDialog = new QuantityDialog();
+    private void openDialog(String food) {
+        QuantityDialog quantityDialog = new QuantityDialog(food);
         quantityDialog.show(getSupportFragmentManager(),"quantityDialog");
     }
 
 
     @Override
     public void applyTexts(String quantity) {
-        if(quantity.equals("0"))
-            return;
         DecimalFormat df = new DecimalFormat("0.00");
         String food = ChineseStallActivity.food;
         String price = ChineseStallActivity.price;
         boolean found = false;
-        int add_on = Integer.parseInt(quantity);
+        int new_quantity = Integer.parseInt(quantity);
         float total = Float.parseFloat(price);
         for(int i=0; i<cartData.size();i++){
             if(cartData.get(i).getFood().equals(food)){
-                int prev_qty = Integer.parseInt(cartData.get(i).getQuatity());
-                int new_qty = prev_qty + add_on;
-                total = new_qty * total;
-                cartData.get(i).setQuatity(String.valueOf(new_qty));
-                cartData.get(i).setTotal(df.format(total));
                 found = true;
+                if(new_quantity == 0){
+                    cartData.remove(i);
+                    break;
+                }
+                total = new_quantity * total;
+                cartData.get(i).setQuatity(String.valueOf(new_quantity));
+                cartData.get(i).setTotal(df.format(total));
                 break;
             }
         }
         // if no previous similar item is added into cart create new row in the display cart list
         if(!found){
-            int foodIndex = cartData.size() + 1;
-            String foodIndex_str = String.valueOf(foodIndex);
-            total = add_on * total;
-            cartData.add(new CartListData(foodIndex_str, food, String.valueOf(add_on), df.format(total)));
+            // if the quantity selected is 0, return without doing anything
+            if(quantity.equals("0"))
+                return;
+            // else add into the cart list
+            else{
+                int foodIndex = cartData.size() + 1;
+                String foodIndex_str = String.valueOf(foodIndex);
+                total = new_quantity * total;
+                cartData.add(new CartListData(foodIndex_str, food, String.valueOf(new_quantity), df.format(total)));
+            }
         }
         PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
     }

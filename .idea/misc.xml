@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/HuiFang/.gradle/caches/transforms-3/255d63c0f9f8f5d12ab3191ffb377750/transformed/core-1.5.0/res/layout/custom_dialog.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable/border.xml" value="0.20052083333333334" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable/ic_food.xml" value="0.1" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/font/dancing_script_bold.xml" value="0.21458333333333332" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_cart.xml" value="0.22" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/activity_chinese_stall.xml" value="0.2673716012084592" />
@@ -27,7 +30,7 @@
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/nav_drawer.xml" value="0.4130688448074679" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/order_list.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/order_list_main.xml" value="0.1118659420289855" />
-        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/toolbar.xml" value="0.11730072463768115" />
+        <entry key="..\:/Users/HuiFang/Desktop/Year 3/Mobile Device Programming/Coursework/Application/app/src/main/res/layout/toolbar.xml" value="0.16666666666666666" />
       </map>
     </option>
   </component>
