@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,10 +16,20 @@ import java.util.ArrayList;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     private ArrayList<OrderListData> orderData;
 
+    /**
+     * Create the constructor
+     * @param orderData
+     */
     public OrderAdapter(ArrayList<OrderListData>  orderData) {
         this.orderData = orderData;
     }
 
+    /**
+     * Create new ViewHolder and initialize fields
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,6 +39,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         return viewHolder;
     }
 
+    /**
+     * Update the ViewHolder contents with the item at the given position
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
         final OrderListData myListData = orderData.get(position);
@@ -38,6 +52,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         holder.orderStatus.setText(orderData.get(position).getOrderStatus());
     }
 
+    /**
+     * Return the total number of item held by the adapter
+     * @return
+     */
     @Override
     public int getItemCount() {
         return orderData.size();
@@ -48,6 +66,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         public TextView orderFoodStall;
         public TextView orderStatus;
         public RelativeLayout relativeLayout;
+
         public ViewHolder(View itemView) {
             super(itemView);
             this.orderID = (TextView) itemView.findViewById(R.id.orderID);

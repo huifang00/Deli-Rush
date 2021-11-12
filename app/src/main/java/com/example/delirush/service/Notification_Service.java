@@ -20,10 +20,17 @@ public class Notification_Service extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-    
+
     @Override
     public void onCreate(){ super.onCreate(); }
 
+    /**
+     * Call the function which shows the notification in notification bar
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId) {
         String orderID = (String) intent.getExtras().get("orderID");
@@ -31,6 +38,10 @@ public class Notification_Service extends Service {
         return START_STICKY;
     }
 
+    /**
+     * Show the notification in notification bar
+     * @param orderID
+     */
     private void showNotifications(String orderID) {
         final String CHANNEL_ID = "001";
         final String msg = "Food order ID: " + orderID + " ready to be collected.";
@@ -41,28 +52,23 @@ public class Notification_Service extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 1, order_intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "001", NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.setDescription("This is description.");
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
 
             android.app.Notification.Builder builder = new android.app.Notification.Builder(this, CHANNEL_ID);
             builder.setSmallIcon(R.mipmap.ic_launcher)
-//                    .setContentText(msg)
                     .setContentTitle(msg)
                     .setPriority(android.app.Notification.PRIORITY_DEFAULT)
                     .setContentIntent(contentIntent)
-                    .setAutoCancel(true);   // when click the notification the notification is disappear
+                    .setAutoCancel(true);   // when notification is clicked, remove from notification bar
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
             notificationManagerCompat.notify(001, builder.build());
-            // we will write code for the android above and start.
 
         } else {
-            // we wil write code for bellow area
             android.app.Notification.Builder builder = new android.app.Notification.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentText("This is my notification")
-                    .setContentTitle("This is title")
+                    .setContentTitle(msg)
                     .setPriority(android.app.Notification.PRIORITY_DEFAULT);
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);

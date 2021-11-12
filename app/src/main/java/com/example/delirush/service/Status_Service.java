@@ -11,20 +11,30 @@ import com.example.delirush.PrefConfigOrderList;
 import java.util.ArrayList;
 
 public class Status_Service extends Service {
-//    private ArrayList<OrderListData> orderData = OrderActivity.getOrderData();
     private ArrayList<OrderListData> orderData;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
+    /**
+     * Read the order data from memory
+     */
     @Override
     public void onCreate() {
         super.onCreate();
         orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
     }
 
+    /**
+     * Check the status of order until call AlarmService when ready status is found from the order list
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
         new Thread(new Runnable() {
@@ -62,8 +72,7 @@ public class Status_Service extends Service {
     }
 
     /**
-     * Used to destroy the instance of the service class created.
-     * Also used for testing purposes in SoundServiceTest class.
+     * Destroy the instance of the service class created.
      */
     @Override
     public void onDestroy(){

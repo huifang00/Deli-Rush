@@ -132,17 +132,7 @@ public class OrderActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Bundle extras = getIntent().getExtras();
-        // if placed clicked key was found (not null)
-        // if place order button is clicked and direct to order activity
-        // when back button is clicked, it should direct to the home page instead of cart page
-        if(extras.getString("place_clicked")!=null &&
-                extras.getString("place_clicked").equals("clicked")){
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class).
-                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            extras.remove("place_clicked");
-            return;
-        }
         super.onBackPressed();
+        finish();
     }
 }

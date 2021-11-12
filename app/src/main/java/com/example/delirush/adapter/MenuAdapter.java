@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delirush.ChineseStallActivity;
-import com.example.delirush.HomeActivity;
 import com.example.delirush.MenuListData;
 import com.example.delirush.R;
 
@@ -20,11 +19,22 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     private ArrayList<MenuListData> menuData;
     private Activity activity;
 
+    /**
+     * Create the constructor
+     * @param activity
+     * @param menuData
+     */
     public MenuAdapter(Activity activity, ArrayList<MenuListData>  menuData) {
         this.activity = activity;
         this.menuData = menuData;
     }
 
+    /**
+     * Create new ViewHolder and initialize fields
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,14 +44,17 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
         return viewHolder;
     }
 
+    /**
+     * Update the ViewHolder contents with the item at the given position
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Set text on text view
         holder.menu.setText(menuData.get(position).getFood());
         holder.menu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // Get clicked item position
                 int position = holder.getAdapterPosition();
                 Intent intent = new Intent(activity, ChineseStallActivity.class).
                         setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -49,26 +62,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
                 intent.putExtra("food", menuData.get(position).getFood());
                 intent.putExtra("price", menuData.get(position).getPrice());
                 activity.startActivity(intent);
-                // display pop up dialog to set the count
-                // selection got add to cart and cancel
-                // add to cart then continue
-                // place order at cart
             }
         });
     }
 
+    /**
+     * Return the total number of item held by the adapter
+     * @return
+     */
     @Override
     public int getItemCount() {
         return menuData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // Initialize variable
         TextView menu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Assign variable
             menu = itemView.findViewById(R.id.menu);
         }
     }

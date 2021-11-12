@@ -16,11 +16,20 @@ import java.util.ArrayList;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     private ArrayList<CartListData> cartData;
 
-    // Create constructor
+    /**
+     * Create the constructor
+     * @param cartData
+     */
     public CartAdapter(ArrayList<CartListData> cartData){
         this.cartData = cartData;
     }
 
+    /**
+     * Create new ViewHolder and initialize fields
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public CartAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,6 +39,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         return viewHolder;
     }
 
+    /**
+     * Update the ViewHolder contents with the item at the given positio
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CartListData myListData = cartData.get(position);
@@ -39,10 +53,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         holder.total.setText(cartData.get(position).getTotal());
     }
 
+    /**
+     * Return the total number of item held by the adapter
+     * @return
+     */
     @Override
-    public int getItemCount() {
-        return cartData.size();
-    }
+    public int getItemCount() { return cartData.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView foodIndex;
@@ -50,6 +66,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         public TextView quantity;
         public TextView total;
         public LinearLayout linearlayout;
+
         public ViewHolder(View itemView) {
             super(itemView);
             this.foodIndex = (TextView) itemView.findViewById(R.id.foodIndex);

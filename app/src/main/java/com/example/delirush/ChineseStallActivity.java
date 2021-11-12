@@ -32,7 +32,7 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chinese_stall);
 
-        // read cart Data
+        // Read cart Data
         cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -48,7 +48,6 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         btMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Open drawer
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });

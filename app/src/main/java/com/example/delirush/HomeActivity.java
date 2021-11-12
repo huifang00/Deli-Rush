@@ -28,10 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<OrderListData> orderData;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
-        // Check condition
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            // When drawer is open
-            // Close drawer
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
@@ -54,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         arrayList.add("My Orders");
         arrayList.add("Logout");
 
-        // Initialize adpater
+        // Initialize adapter
         adapter = new MainAdapter(this, arrayList);
 
         // Set layout manager
@@ -65,12 +62,11 @@ public class HomeActivity extends AppCompatActivity {
         btMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Open drawer
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
-        // retrieve the user id
+        // Retrieve the user id
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
@@ -81,24 +77,29 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected  void onPause(){
         super.onPause();
-        // Close drawer
         HomeActivity.closeDrawer(drawerLayout);
     }
 
     public void onSelectChinese(View view) {
-        // navigate to the chinese stall food menu
+        // Navigate to the chinese stall food menu
         Toast.makeText(getApplicationContext(),"Entering Chinese Food Stall",Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getApplicationContext(), ChineseStallActivity.class).
                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     public void onSelectMalay(View view){
-        // navigate to the malay stall food menu
+        // Navigate to the malay stall food menu
         Toast.makeText(getApplicationContext(),"Entering Malay Food Stall",Toast.LENGTH_SHORT).show();
     }
 
     public void onSelectBeverages(View view){
-        // navigate to the beverage stall food menu
+        // Navigate to the beverage stall food menu
         Toast.makeText(getApplicationContext(),"Entering Beverage Stall",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

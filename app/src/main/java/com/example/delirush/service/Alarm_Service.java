@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.delirush.App;
@@ -13,7 +12,6 @@ import com.example.delirush.OrderActivity;
 import com.example.delirush.R;
 
 public class Alarm_Service extends Service{
-    //getting the sound snippet from resources folder
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
 
@@ -24,10 +22,7 @@ public class Alarm_Service extends Service{
     }
 
     /**
-     * Once an instance of the service class is created mediaPlayer, audioManager, and originalVolume are initialised.
-     * mediaPlayer allows us to obtain the sound file from the resources folder.
-     * audioManger is used for handling management of volume, ringer modes and audio routing.
-     * originalVolume is used to store the current volume of the device.
+     * Initalization of mediaPlayer(obtain the sound file) and audioManager(get the volume)
      */
     @Override
     public void onCreate() {
@@ -38,19 +33,16 @@ public class Alarm_Service extends Service{
     }
 
     /**
-     * Once the service activity is started, we verify whether the phone is on ringer mode.
-     * If the phone is muted, then the snippet shall not be played.
-     * Once the snippet is completed, the original volume is restored.
-     * @param intent
-     * @param flags
-     * @param startId
-     * @return constant
+     * Verify whether the app is in background or foreground
+     * Background -> display notification
+     * Foreground -> navigate to orderActivity
      */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
         String orderID  = (String) intent.getExtras().get("orderID");
+        // verify whether the phone is on ringer mode, if muted the alarm shall not be played
         if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
-            mediaPlayer.start();    // play the ringtone
+            mediaPlayer.start();
         }
         if(App.getStatus() != 0){
             Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
@@ -71,8 +63,7 @@ public class Alarm_Service extends Service{
     }
 
     /**
-     * Used to destroy the instance of the service class created.
-     * Also used for testing purposes in SoundServiceTest class.
+     * Destroy the instance of the service class created and stop the media playing
      */
     @Override
     public void onDestroy(){

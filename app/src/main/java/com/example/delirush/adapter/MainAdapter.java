@@ -21,24 +21,39 @@ import com.example.delirush.R;
 import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
-    // Initialize variable
     Activity activity;
     ArrayList<String> arrayList;
 
-    // Create constructor
+    /**
+     * Create the constructor
+     * @param activity
+     * @param arrayList
+     */
     public MainAdapter(Activity activity, ArrayList<String> arrayList){
         this.activity = activity;
         this.arrayList = arrayList;
     }
+
+    /**
+     * Create new ViewHolder and initialize fields
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Initialize view
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_list,parent, false);
-
-        return new ViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View listItem= layoutInflater.inflate(R.layout.drawer_list, parent, false);
+        ViewHolder viewHolder = new ViewHolder(listItem);
+        return viewHolder;
     }
 
+    /**
+     * Update the ViewHolder contents with the item at the given position
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
         // Set text on text view
@@ -51,39 +66,31 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 // Check condition
                 switch (position){
                     case 0:
-                        // Set header for toolbar
-                        // When position is equal to 0
-                        // Redirect to home page
+                        // When position is equal to 0, navigate to home page
                         activity.startActivity(new Intent(activity, HomeActivity.class).
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 1:
-                        // When position is equal to 1
-                        // Redirect to cart page
+                        // When position is equal to 1, navigate to cart page
                         activity.startActivity(new Intent(activity, CartActivity.class).
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 2:
-                        // When position is equal to 2
-                        // Redirect to order page
+                        // When position is equal to 2, navigate to order page
                         activity.startActivity(new Intent(activity, OrderActivity.class).
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 3:
-                        // When position is equal to 3
+                        // When position is equal to 3, proceed to logoout process
                         // Initialize alert dialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        // Set title
                         builder.setTitle("Logout");
-                        // Set message
                         builder.setMessage("Are you sure you want to logout?");
-                        // Positive yes button
                         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Finish all activity
                                 activity.finishAffinity();
-                                // Exit app
                                 activity.startActivity(new Intent(activity, MainActivity.class).
                                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             }
@@ -91,11 +98,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Disimiss dialog
                                 dialog.dismiss();
                             }
                         });
-                        // Show dialog
                         builder.show();
                         break;
                 }
@@ -103,19 +108,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         });
     }
 
+    /**
+     * Return the total number of item held by the adapter
+     * @return
+     */
     @Override
     public int getItemCount() {
-        // Return array list size
         return arrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // Initialize variable
         TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Assign variable
             textView = itemView.findViewById(R.id.text_view);
         }
     }

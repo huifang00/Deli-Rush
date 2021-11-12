@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,9 +27,9 @@ import java.util.concurrent.TimeUnit;
 
 public class CartActivity extends AppCompatActivity {
     //Initialize variable
-    DrawerLayout drawerLayout;
-    ImageView btMenu;
-    RecyclerView recyclerView;
+    private DrawerLayout drawerLayout;
+    private ImageView btMenu;
+    private RecyclerView recyclerView, cartRecyclerView;
     private ArrayList<CartListData> cartData;
     private ArrayList<OrderListData> orderData;
     private float total = 0;
@@ -45,7 +44,15 @@ public class CartActivity extends AppCompatActivity {
         orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
         cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
 
-        // Assign variable
+        // variable of clear cart button
+        clear_cart = findViewById(R.id.clear_cart);
+
+        // variable for cart list
+        cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
+        // update the view of cart page
+        updateView(cartRecyclerView);
+
+        // variable for side drawer
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
         recyclerView = findViewById(R.id.recycler_view);
@@ -59,13 +66,10 @@ public class CartActivity extends AppCompatActivity {
         btMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Open drawer
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
-        // if clear button is clicked, clear the cart
-        clear_cart = findViewById(R.id.clear_cart);
         // if cart is not empty, display the delete button
         if(!cartData.isEmpty()){
             clear_cart.setVisibility(View.VISIBLE);
@@ -75,10 +79,8 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 cartData.clear();
                 PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
-                clear_cart.setVisibility(View.INVISIBLE);
-                // update the view immediately
-                startActivity(new Intent(getApplicationContext(), CartActivity.class).
-                        setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                // update the view of cart page
+                updateView(cartRecyclerView);
             }
         });
 
@@ -87,30 +89,11 @@ public class CartActivity extends AppCompatActivity {
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
         userID.setText(id);
-
-        RecyclerView cartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
-
-        // Initialize adpater
-        CartAdapter adapter = new CartAdapter(cartData);
-
-        // Set layout manager
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Set adapter
-        cartRecyclerView.setAdapter(adapter);
-
-        // calculate the total
-        TextView total_sum_text = (TextView) findViewById(R.id.total_sum_text);
-        for(int i=0;i<cartData.size();i++){
-            total+=Float.parseFloat(cartData.get(i).getTotal());
-        }
-        total_sum_text.setText(df.format(total));
     }
 
     @Override
     protected  void onPause(){
         super.onPause();
-        // Close drawer
         HomeActivity.closeDrawer(drawerLayout);
     }
 
@@ -120,10 +103,12 @@ public class CartActivity extends AppCompatActivity {
             return;
         }
 
-        // update the latest order id with add 1 of previous order
-        // the order id is unique and should be generated randomly from database
-        // this should be update at the food seller side
-        // database and food seller side are not implemented yet
+        /*
+         Update the latest order id with add 1 of previous order
+         the order id is unique and should be generated randomly from database
+         this should be update at the food seller side
+         database and food seller side are not implemented yet
+         */
         int id;
         if(orderData.isEmpty())
             id = 1;
@@ -136,9 +121,12 @@ public class CartActivity extends AppCompatActivity {
         PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
         displayPaymentDialog(orderID);
 
-        // clear the cart list
+        // Clear the cart list
         cartData.clear();
         PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+        // update the view of cart page
+        updateView(cartRecyclerView);
+
     }
 
     private void displayPaymentDialog(String orderID) {
@@ -150,10 +138,8 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startService(new Intent(getApplicationContext(), Status_Service.class));
-                        Intent intent = new Intent(getApplicationContext(), OrderActivity.class).
-                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("place_clicked", "clicked");
-                        startActivity(intent);
+                        startActivity(new Intent(getApplicationContext(), OrderActivity.class).
+                                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         dialog.dismiss();
                         startTimer(orderID);
                     }
@@ -165,8 +151,10 @@ public class CartActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    // update the status to ready after 5 seconds
-                    // (This should be updated from food seller, but food seller was not implemented yet
+                    /*
+                    Update the status to ready after 5 seconds
+                     (This should be updated from food seller, but food seller was not implemented yet
+                     */
                     TimeUnit.MILLISECONDS.sleep(5000);
                     for(int i=0;i<orderData.size();i++) {
                         if (orderData.get(i).getOrderID().equals(orderID)) {
@@ -181,5 +169,36 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    public void updateView(RecyclerView cartRecyclerView){
+        // Initialize adapter
+        CartAdapter adapter = new CartAdapter(cartData);
+
+        // Set layout manager
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Set adapter
+        cartRecyclerView.setAdapter(adapter);
+
+        // calculate the total
+        TextView total_sum_text = findViewById(R.id.total_sum_text);
+        if(cartData.isEmpty()){
+            total = 0;
+        }
+        for(int i=0;i<cartData.size();i++){
+            total+=Float.parseFloat(cartData.get(i).getTotal());
+        }
+        total_sum_text.setText(df.format(total));
+
+        // If cart empty make clear button invisible
+        if(cartData.isEmpty())
+            clear_cart.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

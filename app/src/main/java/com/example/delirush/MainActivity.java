@@ -37,8 +37,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSeller(View view) {
-//        Intent loginIntent = new Intent(this, LoginActivity.class);
-//        startActivity(loginIntent);
         Toast.makeText(getApplicationContext(),"Seller Log In",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
