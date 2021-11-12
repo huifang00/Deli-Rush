@@ -81,8 +81,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         break;
                     case 3:
-                        // When position is equal to 3, proceed to logoout process
-                        // Initialize alert dialog
+                        // When position is equal to 3, proceed to log out process
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                         builder.setTitle("Logout");
                         builder.setMessage("Are you sure you want to logout?");

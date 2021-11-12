@@ -21,6 +21,15 @@ public class PrefConfigOrderList {
         editor.apply();
     }
 
+    /**
+     * Write the list into shared preferences
+     * @param context
+     * @param list
+     */
+    /**
+     * Read the list from preferences
+     * @param context
+     */
     public static List<OrderListData> readListFromPref(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(LIST_KEY, "");

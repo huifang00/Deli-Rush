@@ -39,10 +39,8 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         btMenu = findViewById(R.id.bt_menu);
         recyclerView = findViewById(R.id.recycler_view);
 
-        // Set layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Set adapter
         recyclerView.setAdapter(new MainAdapter(this, HomeActivity.arrayList));
 
         btMenu.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +50,7 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
             }
         });
 
-        // retrieve the user id
+        // Retrieve the user id
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
@@ -72,9 +70,11 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         }
     }
 
+    /**
+     * Create the list for the menu in stall
+     */
     private void createMenu() {
         RecyclerView menu_recyclerView = (RecyclerView) findViewById(R.id.menu_recyclerView);
-        // Clear cart list
         chinese_menu.clear();
 
         // Add menu item in array list
@@ -84,22 +84,24 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         chinese_menu.add(new MenuListData("Chicken Porridge", "4.50"));
         chinese_menu.add(new MenuListData("Curry Noodle", "5.00"));
 
-        // Initialize adpater
         MenuAdapter adapter = new MenuAdapter(this, chinese_menu);
-
-        // Set layout manager
         menu_recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Set adapter
         menu_recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Open the dialog of setting the quantity of the food
+     * @param food
+     */
     private void openDialog(String food) {
         QuantityDialog quantityDialog = new QuantityDialog(food);
         quantityDialog.show(getSupportFragmentManager(),"quantityDialog");
     }
 
-
+    /**
+     * Apply the text changes in library to the cart Activity
+     * @param quantity
+     */
     @Override
     public void applyTexts(String quantity) {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -121,12 +123,12 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
                 break;
             }
         }
-        // if no previous similar item is added into cart create new row in the display cart list
+        // If no previous similar item is added into cart create new row in the display cart list
         if(!found){
-            // if the quantity selected is 0, return without doing anything
+            // If the quantity selected is 0, return without doing anything
             if(quantity.equals("0"))
                 return;
-            // else add into the cart list
+            // Else add into the cart list
             else{
                 int foodIndex = cartData.size() + 1;
                 String foodIndex_str = String.valueOf(foodIndex);

@@ -13,6 +13,12 @@ import java.util.List;
 
 public class PrefConfigCartList {
     private static String LIST_KEY = "cart_list";
+
+    /**
+     * Write the list into shared preferences
+     * @param context
+     * @param list
+     */
     public static void writeListInPref(Context context, List<CartListData> list){
         Gson gson = new Gson();
         String jsonString = gson.toJson(list);
@@ -22,6 +28,10 @@ public class PrefConfigCartList {
         editor.apply();
     }
 
+    /**
+     * Read the list from preferences
+     * @param context
+=     */
     public static List<CartListData> readListFromPref(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(LIST_KEY, "");

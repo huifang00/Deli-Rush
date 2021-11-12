@@ -25,6 +25,11 @@ public class QuantityDialog extends AppCompatDialogFragment {
         this.food = food;
     }
 
+    /**
+     * Create the dialog to set the quanitty of food
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String curr_quantity = "0";
@@ -35,7 +40,7 @@ public class QuantityDialog extends AppCompatDialogFragment {
                 break;
             }
         }
-        // build the alert dialog to change the quantity
+        // Build the alert dialog to change the quantity
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.activity_quantity_dialog, null);
@@ -75,6 +80,7 @@ public class QuantityDialog extends AppCompatDialogFragment {
         }
     }
 
+    // Listener on the Quantity Dialog, if there is any changes
     public interface QuantityDialogListener {
         void applyTexts(String edit_quantity);
     }

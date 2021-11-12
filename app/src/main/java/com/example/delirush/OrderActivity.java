@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
     //Initialize variable
-    DrawerLayout drawerLayout;
-    ImageView btMenu;
-    RecyclerView recyclerView;
+    private DrawerLayout drawerLayout;
+    private ImageView btMenu;
+    private RecyclerView recyclerView;
     private ArrayList<OrderListData> orderData;
 
     @Override
@@ -38,12 +38,9 @@ public class OrderActivity extends AppCompatActivity {
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
+
         recyclerView = findViewById(R.id.recycler_view);
-
-        // Set layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Set adapter
         recyclerView.setAdapter(new MainAdapter(this, HomeActivity.arrayList));
 
         btMenu.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +51,7 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-        // retrieve the user id
+        // Retrieve the user id
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
@@ -70,9 +67,7 @@ public class OrderActivity extends AppCompatActivity {
         if(extras == null){
             return;
         }
-        // the extras may have the placed_cliked key pass from cart activity
-        // so if orderID and ringing are null which are required to pass from alarm service
-        // don't run the code below it
+
         if(extras.getString("orderID") != null && extras.getString("orderID") != null) {
             String orderID = extras.getString("orderID");
             String ringing = extras.getString("ringing");
@@ -87,18 +82,13 @@ public class OrderActivity extends AppCompatActivity {
     @Override
     protected  void onPause(){
         super.onPause();
-        // Close drawer
         HomeActivity.closeDrawer(drawerLayout);
     }
 
-    public ArrayList<String> getOrderStatusList(){
-        ArrayList<String> orderStatus = new ArrayList<String>();
-        for(int i=0;i<orderData.size();i++){
-            orderStatus.add(orderData.get(i).getOrderStatus());
-        }
-        return orderStatus;
-    }
-
+    /**
+     * Display the pop up with order ID
+     * @param orderID
+     */
     public void display(String orderID){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String msg = "Food order ID: " + orderID + " ready to be collected.";

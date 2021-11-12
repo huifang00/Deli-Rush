@@ -31,11 +31,19 @@ public class MainActivity extends AppCompatActivity {
         appName2.setTypeface(typeface2);
     }
 
+    /**
+     * Trigerred when customer account button is clicked
+     * @param view
+     */
     public void onCustomer(View view) {
         Intent loginIntent = new Intent(this, LoginActivity.class);
         startActivity(loginIntent);
     }
 
+    /**
+     * Triggered when seller account button is clicked
+     * @param view
+     */
     public void onSeller(View view) {
         Toast.makeText(getApplicationContext(),"Seller Log In",Toast.LENGTH_SHORT).show();
     }
