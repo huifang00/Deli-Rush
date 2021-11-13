@@ -1,6 +1,7 @@
 package com.example.delirush;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,6 +108,7 @@ public class OrderActivity extends AppCompatActivity {
                                 orderRecyclerView.setHasFixedSize(true);
                                 orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 orderRecyclerView.setAdapter(adapter);
+                                NotificationManagerCompat.from(getApplicationContext()).cancelAll();    // clear all notification from the status bar
                                 break;
                             }
                         }

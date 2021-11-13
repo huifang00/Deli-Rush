@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -154,7 +155,11 @@ public class CartActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getApplicationContext(), TimerService.class);
                         intent.putExtra("orderId_fromCart", orderID);
-                        startService(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            startForegroundService(intent);
+                        } else {
+                            startService(intent);
+                        }
                         startService(new Intent(getApplicationContext(), Status_Service.class));
                         startActivity(new Intent(getApplicationContext(), OrderActivity.class).
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
