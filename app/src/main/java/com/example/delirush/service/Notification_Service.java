@@ -78,4 +78,11 @@ public class Notification_Service extends Service {
         }
     }
 
+    /**
+     * Destroy the instance of the service class created.
+     */
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
 }

@@ -25,7 +25,6 @@ import com.example.delirush.service.TimerService;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 public class CartActivity extends AppCompatActivity {
     //Initialize variable

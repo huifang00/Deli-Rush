@@ -97,9 +97,13 @@ public class TimerService extends Service {
         return START_STICKY;
     }
 
+    /**
+     * Destroy the instance of the service class created and
+     * remove the notification from the status bar
+     */
     @Override
-    public void onDestroy() {
-        stopForeground(true);   // Remove the notification from the status bar
+    public void onDestroy(){
+        stopForeground(true);
         super.onDestroy();
     }
 }

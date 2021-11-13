@@ -24,7 +24,7 @@ import com.example.delirush.FoodStallActivity.MalayStallActivity;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
-    //Initialize variable
+    // Declare & Intitalize variables
     private DrawerLayout drawerLayout;
     private ImageView btMenu;
     private RecyclerView recyclerView;

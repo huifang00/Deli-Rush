@@ -80,46 +80,6 @@ public class Status_Service extends Service {
      */
     @Override
     public void onDestroy(){
-//        this.unregisterReceiver(mCallBroadcastReceiver);
         super.onDestroy();
     }
-
-    private BroadcastReceiver mCallBroadcastReceiver = new BroadcastReceiver()
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            new Thread(new Runnable() {
-                public void run() {
-                    boolean match_collected = true;
-                    // check if all order are collected status, if not then need loop the order status until ready is found
-                    for(int i=0;i<orderData.size();i++){
-                        if(orderData.get(i).getOrderStatus() != "Collected"){
-                            match_collected = false;
-                            break;
-                        }
-                    }
-                    if(!match_collected && !orderData.isEmpty()){
-                        for(int position=0; position<orderData.size();position++) {
-                            if (orderData.get(position).getOrderStatus().equals("Ready")) {
-                                intentAlarm(position);
-                                break;
-                            }
-                            if(position == orderData.size()-1) {
-                                position = -1;   // loop again until ready is found
-                                // read again the orderData
-                                orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());;   // update the data
-                            }
-                        }
-                    }
-                }
-
-                private void intentAlarm(int position) {
-                    Intent intent_alarm = new Intent(getApplicationContext(), Alarm_Service.class);
-                    intent_alarm.putExtra("orderID", orderData.get(position).getOrderID());
-                    startService(intent_alarm);
-                }
-            }).start();
-        }
-    };
 }

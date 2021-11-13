@@ -12,15 +12,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.delirush.CartListData;
-import com.example.delirush.FoodStallActivity.BeverageStallActivity;
-import com.example.delirush.FoodStallActivity.ChineseStallActivity;
-import com.example.delirush.FoodStallActivity.MalayStallActivity;
 import com.example.delirush.HomeActivity;
 import com.example.delirush.PrefConfigCartList;
 import com.example.delirush.R;
 
 import java.util.ArrayList;
-
 
 public class QuantityDialog extends AppCompatDialogFragment {
     private EditText quantity;

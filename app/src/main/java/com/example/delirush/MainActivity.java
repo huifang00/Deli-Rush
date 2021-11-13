@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 R.font.permanentmarker_regular);
         appName2.setTypeface(typeface2);
 
+        // When the notification is pop up, the application should be started from the order page
         if(Notification_Service.notified){
             Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
                     setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
