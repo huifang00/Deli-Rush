@@ -14,7 +14,7 @@ import com.example.delirush.OrderActivity;
 import com.example.delirush.R;
 
 public class Notification_Service extends Service {
-
+    public static boolean notified;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,6 +35,7 @@ public class Notification_Service extends Service {
     public int onStartCommand (Intent intent,int flags, int startId) {
         String orderID = (String) intent.getExtras().get("orderID");
         showNotifications(orderID);
+        notified = true;
         return START_STICKY;
     }
 
@@ -60,6 +61,7 @@ public class Notification_Service extends Service {
                     .setContentTitle(msg)
                     .setPriority(android.app.Notification.PRIORITY_DEFAULT)
                     .setContentIntent(contentIntent)
+                    .setOngoing(true)   // when user clear notification, it won't clear till they click in the apps
                     .setAutoCancel(true);   // when notification is clicked, remove from notification bar
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);

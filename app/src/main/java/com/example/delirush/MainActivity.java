@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.delirush.service.Alarm_Service;
+import com.example.delirush.service.Notification_Service;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -29,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 R.font.permanentmarker_regular);
         appName2.setTypeface(typeface2);
+
+        if(Notification_Service.notified){
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            order_intent.putExtra("orderID", Alarm_Service.orderID);  // let the order ID be static?
+            order_intent.putExtra("ringing", "ringing");
+            startActivity(order_intent);
+        }
     }
 
     /**

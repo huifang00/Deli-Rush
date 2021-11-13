@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.service.Status_Service;
+import com.example.delirush.service.TimerService;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -151,43 +153,20 @@ public class CartActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(), TimerService.class);
+                        intent.putExtra("orderId_fromCart", orderID);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            startForegroundService(intent);
+                        } else {
+                            startService(intent);
+                        }
                         startService(new Intent(getApplicationContext(), Status_Service.class));
                         startActivity(new Intent(getApplicationContext(), OrderActivity.class).
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         dialog.dismiss();
-                        startTimer(orderID);
                     }
                 }).setCancelable(false)  //prevent getting dismissed by back key
                 .create().show();
-    }
-
-    /**
-     * Start the timer to update the order status to ready
-     * This supposed to be done in server side, but currently no server is implemented yet
-     * @param orderID
-     */
-    private void startTimer(String orderID) {
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    /*
-                    Update the status to ready after 5 seconds
-                     (This should be updated from food seller, but food seller was not implemented yet
-                     */
-                    TimeUnit.MILLISECONDS.sleep(5000);
-                    for(int i=0;i<orderData.size();i++) {
-                        if (orderData.get(i).getOrderID().equals(orderID)) {
-                            orderData.get(i).setOrderStatus("Ready");
-                            PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
-                            break;
-                        }
-                    }
-                    orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
     /**

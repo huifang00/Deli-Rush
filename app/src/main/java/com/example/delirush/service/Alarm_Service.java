@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 
 import com.example.delirush.App;
@@ -14,6 +16,7 @@ import com.example.delirush.R;
 public class Alarm_Service extends Service{
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
+    public static String orderID;
 
     @Nullable
     @Override
@@ -26,10 +29,12 @@ public class Alarm_Service extends Service{
      */
     @Override
     public void onCreate() {
-        stopService(new Intent(getApplicationContext(), Status_Service.class));
         super.onCreate();
         mediaPlayer = MediaPlayer.create(this, R.raw.ringtone);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        stopService(new Intent(getApplicationContext(),TimerService.class));
+        stopService(new Intent(getApplicationContext(), Status_Service.class));
     }
 
     /**
@@ -39,7 +44,7 @@ public class Alarm_Service extends Service{
      */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
-        String orderID  = (String) intent.getExtras().get("orderID");
+        orderID  = (String) intent.getExtras().get("orderID");
         // verify whether the phone is on ringer mode, if muted the alarm shall not be played
         if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
             mediaPlayer.start();
