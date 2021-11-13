@@ -52,6 +52,15 @@
         <service
             android:name=".service.Notification_Service"
             android:exported="false" />
+        <service
+            android:name=".service.TimerService"
+            android:exported="false" />
+        <receiver
+            android:name=".service.RestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+        </receiver>
     </application>
 
 </manifest>

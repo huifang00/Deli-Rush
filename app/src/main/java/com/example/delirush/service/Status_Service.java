@@ -2,6 +2,7 @@ package com.example.delirush.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -77,5 +78,81 @@ public class Status_Service extends Service {
     @Override
     public void onDestroy(){
         super.onDestroy();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        Toast.makeText(getApplicationContext(), "onTaskRemoved", Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() {
+            public void run() {
+                System.out.println("run");
+                boolean match_collected = true;
+                // check if all order are collected status, if not then need loop the order status until ready is found
+                for(int i=0;i<orderData.size();i++){
+                    if(orderData.get(i).getOrderStatus() != "Collected"){
+                        match_collected = false;
+                        break;
+                    }
+                }
+                System.out.println("1");
+                if(!match_collected && !orderData.isEmpty()){
+                    System.out.println("run123");
+                    for(int position=0; position<orderData.size();position++) {
+                        System.out.println("runstatus");
+                        if (orderData.get(position).getOrderStatus().equals("Ready")) {
+                            System.out.println("run2");
+                            intentAlarm(position);
+                            break;
+                        }
+                        if(position == orderData.size()-1) {
+                            position = -1;   // loop again until ready is found
+                            // read again the orderData
+                            orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());;   // update the data
+                        }
+                    }
+                }
+            }
+
+            private void intentAlarm(int position) {
+                System.out.println("intentAlarm");
+                Intent intent_alarm = new Intent(getApplicationContext(), Alarm_Service.class);
+                intent_alarm.putExtra("orderID", orderData.get(position).getOrderID());
+                startService(intent_alarm);
+            }
+        }).start();
+    }
+
+    public void checkStatus(){
+        new Thread(new Runnable() {
+            public void run() {
+                boolean match_collected = true;
+                // check if all order are collected status, if not then need loop the order status until ready is found
+                for(int i=0;i<orderData.size();i++){
+                    if(orderData.get(i).getOrderStatus() != "Collected"){
+                        match_collected = false;
+                        break;
+                    }
+                }
+                if(!match_collected && !orderData.isEmpty()){
+                    for(int position=0; position<orderData.size();position++) {
+                        if (orderData.get(position).getOrderStatus().equals("Ready")) {
+                            intentAlarm(position);
+                            break;
+                        }
+                        if(position == orderData.size()-1) {
+                            position = -1;   // loop again until ready is found
+                            // read again the orderData
+                            orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());;   // update the data
+                        }
+                    }
+                }
+            }
+
+            private void intentAlarm(int position) {
+                Intent intent_alarm = new Intent(getApplicationContext(), Alarm_Service.class);
+                intent_alarm.putExtra("orderID", orderData.get(position).getOrderID());
+                startService(intent_alarm);
+            }
+        }).start();
     }
 }

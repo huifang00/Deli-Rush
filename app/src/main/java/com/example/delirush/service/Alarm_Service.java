@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 
 import com.example.delirush.App;
@@ -14,6 +16,7 @@ import com.example.delirush.R;
 public class Alarm_Service extends Service{
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
+    String orderID;
 
     @Nullable
     @Override
@@ -39,11 +42,14 @@ public class Alarm_Service extends Service{
      */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
-        String orderID  = (String) intent.getExtras().get("orderID");
+        System.out.println("start?");
+        orderID  = (String) intent.getExtras().get("orderID");
+        System.out.println("1");
         // verify whether the phone is on ringer mode, if muted the alarm shall not be played
         if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
             mediaPlayer.start();
         }
+        System.out.println("2");
         if(App.getStatus() != 0){
             Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
                     setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -69,5 +75,28 @@ public class Alarm_Service extends Service{
     public void onDestroy(){
         super.onDestroy();
         mediaPlayer.stop();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        System.out.println("removed?");
+        // verify whether the phone is on ringer mode, if muted the alarm shall not be played
+        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+            mediaPlayer.start();
+        }
+        if(App.getStatus() != 0){
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            order_intent.putExtra("ringing", "ringing");
+            order_intent.putExtra("orderID", orderID);
+            order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(order_intent);
+        }
+        else{
+            Intent order_intent = new Intent(this, Notification_Service.class);
+            order_intent.putExtra("orderID", orderID);
+            order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startService(order_intent);
+        }
     }
 }
