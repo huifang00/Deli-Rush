@@ -106,6 +106,7 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
     private void openDialog(String food) {
         QuantityDialog quantityDialog = new QuantityDialog(food);
         quantityDialog.show(getSupportFragmentManager(),"quantityDialog");
+        quantityDialog.setCancelable(false);    //prevent getting dismissed by back key
     }
 
     /**

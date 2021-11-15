@@ -104,6 +104,7 @@ public class BeverageStallActivity extends AppCompatActivity implements Quantity
     private void openDialog(String food) {
         QuantityDialog quantityDialog = new QuantityDialog(food);
         quantityDialog.show(getSupportFragmentManager(),"quantityDialog");
+        quantityDialog.setCancelable(false);    //prevent getting dismissed by back key
     }
 
     /**

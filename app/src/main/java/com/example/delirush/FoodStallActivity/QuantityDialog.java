@@ -80,7 +80,6 @@ public class QuantityDialog extends AppCompatDialogFragment {
                         dialogInterface.dismiss();
                     }
                 });
-        builder.setCancelable(false);  //prevent getting dismissed by back key
         return builder.create();
     }
 
