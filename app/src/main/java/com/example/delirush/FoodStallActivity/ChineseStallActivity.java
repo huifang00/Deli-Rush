@@ -91,8 +91,11 @@ public class ChineseStallActivity extends AppCompatActivity implements QuantityD
         chinese_menu.add(new MenuListData("Chicken Rice", "5.50"));
         chinese_menu.add(new MenuListData("Fried Rice", "6.00"));
         chinese_menu.add(new MenuListData("Butter Milk Chicken Rice", "6.50"));
+        chinese_menu.add(new MenuListData("Sweet Sour Chicken Rice", "6.50"));
         chinese_menu.add(new MenuListData("Chicken Porridge", "4.50"));
+        chinese_menu.add(new MenuListData("Fish Porridge", "4.50"));
         chinese_menu.add(new MenuListData("Curry Noodle", "5.00"));
+        chinese_menu.add(new MenuListData("Herbal Pan Mee", "5.50"));
 
         MenuAdapter adapter = new MenuAdapter(this, chinese_menu);
         menu_recyclerView.setLayoutManager(new LinearLayoutManager(this));
