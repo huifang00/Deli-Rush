@@ -1,24 +1,14 @@
 package com.example.delirush;
 
 public class CartListData {
-    private String foodIndex;
     private String food;
-    private String quatity;
+    private int quantity;
     private String total;
 
-    public CartListData(String foodIndex, String food, String quatity, String total) {
-        this.foodIndex = foodIndex;
+    public CartListData(String food, int quantity, String total) {
         this.food = food;
-        this.quatity = quatity;
+        this.quantity = quantity;
         this.total = total;
-    }
-
-    public String getFoodIndex() {
-        return foodIndex;
-    }
-
-    public void setFoodIndex(String foodIndex) {
-        this.foodIndex = foodIndex;
     }
 
     public String getFood() {
@@ -29,12 +19,12 @@ public class CartListData {
         this.food = food;
     }
 
-    public String getQuatity() {
-        return quatity;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuatity(String quatity) {
-        this.quatity = quatity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getTotal() {

@@ -14,17 +14,14 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.example.delirush.Database;
 import com.example.delirush.OrderActivity;
-import com.example.delirush.OrderListData;
-import com.example.delirush.PrefConfigOrderList;
 import com.example.delirush.R;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class TimerService extends Service {
 
-    private ArrayList<OrderListData> orderData;
     private String orderID = "";
     @Nullable
     @Override
@@ -38,7 +35,6 @@ public class TimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
     }
 
     /**
@@ -53,7 +49,6 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
         final String CHANNEL_ID = "001";
-
         Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 1, order_intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -68,7 +63,6 @@ public class TimerService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
         startForeground(1, notification);
-
         Bundle extras = intent.getExtras();
         if(extras.getString("orderId_fromCart")!=null) {
             orderID = extras.getString("orderId_fromCart");
@@ -79,15 +73,11 @@ public class TimerService extends Service {
                         Update the status to ready after 5 seconds
                          (This should be updated from food seller, but food seller was not implemented yet
                          */
-                        TimeUnit.MILLISECONDS.sleep(10000);
-                        for (int i = 0; i < orderData.size(); i++) {
-                            if (orderData.get(i).getOrderID().equals(orderID)) {
-                                orderData.get(i).setOrderStatus("Ready");
-                                PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
-                                break;
-                            }
-                        }
-                        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());
+                        TimeUnit.MILLISECONDS.sleep(5000);
+                        Database dbHandler = new Database(getApplicationContext(), null, null, 1);
+                        dbHandler.updateOrder(Integer.parseInt(orderID), "Ready");
+                        OrderActivity.orderData.get(Integer.parseInt(orderID)-1).setOrderStatus("Ready");
+                        // update the static variable
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

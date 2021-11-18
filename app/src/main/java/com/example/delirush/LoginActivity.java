@@ -94,21 +94,24 @@ public class LoginActivity extends AppCompatActivity {
             }
             // If the id matches with the password, proceed to next page
             else {
-                // Take order data from memory(shared preference)
-                orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
-                // If order data is not created in the shared preference, initialize order data
-                if(orderData == null){
-                    orderData = new ArrayList<OrderListData>();
-                    PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
-                }
+                Database dbHandler = new Database(this, null, null, 1);
+                // Take order data from database
+                dbHandler.readOrder();
+//                orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
+//                // If order data is not created in the shared preference, initialize order data
+//                if(orderData == null){
+//                    orderData = new ArrayList<OrderListData>();
+//                    PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
+//                }
 
                 // Take cart data from memory(shared preference)
-                cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
-                // If cart data is not created in the shared preference, initialize cart data
-                if(cartData == null){
-                    cartData = new ArrayList<CartListData>();
-                    PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
-                }
+                dbHandler.readCart();
+//                cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
+//                // If cart data is not created in the shared preference, initialize cart data
+//                if(cartData == null){
+//                    cartData = new ArrayList<CartListData>();
+//                    PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+//                }
 
                 // Store user id into shared preference
                 SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);

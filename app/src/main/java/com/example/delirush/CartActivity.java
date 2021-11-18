@@ -31,22 +31,25 @@ public class CartActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView btMenu;
     private RecyclerView recyclerView, cartRecyclerView;
-    private ArrayList<CartListData> cartData;
-    private ArrayList<OrderListData> orderData;
+    public static ArrayList<CartListData> cartData = new ArrayList<>();
     private float total = 0;
     private DecimalFormat df = new DecimalFormat("0.00");
     private ImageView clear_cart;
     private static int orderStall;
     private TextView stall_cart;
-
+    private Database dbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
         // read order data & cart data
-        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
-        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
+        dbHandler = new Database(this, null, null, 1);
+        dbHandler.readCart();
+//        dbHandler.readOrder();
+
+//        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
+//        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
 
         // variable of clear cart button
         clear_cart = findViewById(R.id.clear_cart);
@@ -88,7 +91,6 @@ public class CartActivity extends AppCompatActivity {
                 clearCartDialog();
             }
         });
-
         // retrieve the user id
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         String id = sharedPreferences.getString("userID", "");
@@ -118,25 +120,32 @@ public class CartActivity extends AppCompatActivity {
          this should be update at the food seller side
          database and food seller side are not implemented yet
          */
-        int id;
-        if(orderData.isEmpty())
-            id = 1;
-        else
-            id = Integer.parseInt(orderData.get(0).getOrderID())+1;
-        Collections.reverse(orderData);
-        String orderID = String.valueOf(id);
-        String foodStall = getStallName();
-        orderData.add(new OrderListData(orderID, foodStall, "Order Placed"));
-        Collections.reverse(orderData);
-        PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
+//        int id;
+//        if(orderData.isEmpty())
+//            id = 1;
+//        else
+//            id = Integer.parseInt(orderData.get(0).getOrderID())+1;
+//        Collections.reverse(orderData);
+        OrderListData order = new OrderListData(1, getStallName(), "Order Placed");
+        dbHandler.addOrder(order);
+//        order.setOrderID(dbHandler.getOrderID());   // update the id generated from database
+//        OrderActivity.orderData.add(order);
+//        dbHandler.readOrder();
+//        String orderID = String.valueOf(id);
+//        String foodStall = getStallName();
+//        orderData.add(new OrderListData(orderID, foodStall, "Order Placed"));
+        Collections.reverse(OrderActivity.orderData);
+//        PrefConfigOrderList.writeListInPref(getApplicationContext(), OrderActivity.orderData);
+        // read the order id from the last row of database
+        String orderID = String.valueOf(dbHandler.getOrderID());
         paymentDialog(orderID);
 
         // Clear the cart list
-        cartData.clear();
-        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+        dbHandler.deleteCart();
+//        cartData.clear();
+//        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
         // update the view of cart page
         updateView(cartRecyclerView);
-
     }
 
     /**
@@ -179,8 +188,9 @@ public class CartActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                cartData.clear();
-                PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+                dbHandler.deleteCart();
+//                cartData.clear();
+//                PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
                 // update the view of cart page
                 updateView(cartRecyclerView);
             }
@@ -206,7 +216,6 @@ public class CartActivity extends AppCompatActivity {
         CartAdapter adapter = new CartAdapter(cartData);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartRecyclerView.setAdapter(adapter);
-
         // calculate the total
         TextView total_sum_text = findViewById(R.id.total_sum_text);
         if(cartData.isEmpty()){
@@ -216,7 +225,6 @@ public class CartActivity extends AppCompatActivity {
             total+=Float.parseFloat(cartData.get(i).getTotal());
         }
         total_sum_text.setText(df.format(total));
-
         // If cart empty make clear button invisible
         if(cartData.isEmpty()){
             clear_cart.setVisibility(View.INVISIBLE);
@@ -229,7 +237,6 @@ public class CartActivity extends AppCompatActivity {
             edit_stallId.putInt("stallID",getOrderStall());
             edit_stallId.apply();
         }
-
         // Set the display of stall name in cart
         String stall = getStallName();
         stall_cart.setText(stall);
