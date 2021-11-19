@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
-    public static int activityReferences = 0;
+    private static int activityReferences = 0;
     private boolean isActivityChangingConfigurations = false;
 
     @Override
@@ -24,7 +24,6 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        isActivityChangingConfigurations = activity.isChangingConfigurations();
         if (++activityReferences == 1 && !isActivityChangingConfigurations) {
             // App enters foreground
         }
