@@ -22,7 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerService extends Service {
 
-    private String orderID = "";
+    public static boolean notified = false;
+    private int orderID = 0;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -48,6 +50,7 @@ public class TimerService extends Service {
      */
     @Override
     public int onStartCommand (Intent intent,int flags, int startId){
+        notified = true;
         final String CHANNEL_ID = "001";
         Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -65,7 +68,7 @@ public class TimerService extends Service {
         startForeground(1, notification);
         Bundle extras = intent.getExtras();
         if(extras.getString("orderId_fromCart")!=null) {
-            orderID = extras.getString("orderId_fromCart");
+            orderID = Integer.parseInt(extras.getString("orderId_fromCart"));
             new Thread(new Runnable() {
                 public void run() {
                     try {
@@ -75,9 +78,16 @@ public class TimerService extends Service {
                          */
                         TimeUnit.MILLISECONDS.sleep(5000);
                         Database dbHandler = new Database(getApplicationContext(), null, null, 1);
-                        dbHandler.updateOrder(Integer.parseInt(orderID), "Ready");
-                        OrderActivity.orderData.get(Integer.parseInt(orderID)-1).setOrderStatus("Ready");
+                        dbHandler.updateOrder(orderID, "Ready");
                         // update the static variable
+                        for (int i = 0; i < OrderActivity.orderData.size(); i++) {
+                            if (OrderActivity.orderData.get(i).getOrderID() == orderID) {
+                                OrderActivity.orderData.get(i).setOrderStatus("Ready");
+                                startService(new Intent(getApplicationContext(), Status_Service.class));
+                                onDestroy();
+                                break;
+                            }
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

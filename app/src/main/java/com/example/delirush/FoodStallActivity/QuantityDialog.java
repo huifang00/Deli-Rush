@@ -12,12 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.delirush.CartActivity;
-import com.example.delirush.CartListData;
 import com.example.delirush.HomeActivity;
-import com.example.delirush.PrefConfigCartList;
 import com.example.delirush.R;
-
-import java.util.ArrayList;
 
 public class QuantityDialog extends AppCompatDialogFragment {
     private EditText quantity;
@@ -25,28 +21,28 @@ public class QuantityDialog extends AppCompatDialogFragment {
     private String food;
     private String price;
 
-    public QuantityDialog(String food){
+    public QuantityDialog(String food) {
         this.food = food;
     }
 
     /**
      * Create the dialog to set the quantity of food
+     *
      * @param savedInstanceState
      * @return
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String curr_quantity = "0";
-//        ArrayList<CartListData> cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(getActivity().getApplicationContext());
 
-        for(int i=0;i< CartActivity.cartData.size();i++){
-            if(CartActivity.cartData.get(i).getFood().equals(food)){
+        for (int i = 0; i < CartActivity.cartData.size(); i++) {
+            if (CartActivity.cartData.get(i).getFood().equals(food)) {
                 curr_quantity = String.valueOf(CartActivity.cartData.get(i).getQuantity());
                 break;
             }
         }
 
-        switch(HomeActivity.getSelectedStall()){
+        switch (HomeActivity.getSelectedStall()) {
             case 0:
                 price = ChineseStallActivity.getPrice();
                 break;

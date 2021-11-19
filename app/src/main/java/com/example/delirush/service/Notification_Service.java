@@ -7,14 +7,18 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.delirush.App;
 import com.example.delirush.OrderActivity;
 import com.example.delirush.R;
 
 public class Notification_Service extends Service {
-    public static boolean notified;
+    public static boolean notified = false;
+    public static String orderID = "";
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -22,7 +26,9 @@ public class Notification_Service extends Service {
     }
 
     @Override
-    public void onCreate(){ super.onCreate(); }
+    public void onCreate() {
+        super.onCreate();
+    }
 
     /**
      * Call the function which shows the notification in notification bar
@@ -34,8 +40,12 @@ public class Notification_Service extends Service {
     @Override
     public int onStartCommand (Intent intent,int flags, int startId) {
         String orderID = (String) intent.getExtras().get("orderID");
-        showNotifications(orderID);
         notified = true;
+        if (App.getStatus() == 0) {
+            Notification_Service.orderID = orderID;
+        }
+        showNotifications(orderID);
+        // if the app is running in background
         return START_STICKY;
     }
 

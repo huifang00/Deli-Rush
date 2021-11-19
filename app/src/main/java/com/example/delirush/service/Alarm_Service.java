@@ -24,7 +24,7 @@ public class Alarm_Service extends Service{
     }
 
     /**
-     * Initalization of mediaPlayer(obtain the sound file) and audioManager(get the volume)
+     * Initialization of mediaPlayer(obtain the sound file) and audioManager(get the volume)
      */
     @Override
     public void onCreate() {
@@ -32,7 +32,6 @@ public class Alarm_Service extends Service{
         mediaPlayer = MediaPlayer.create(this, R.raw.ringtone);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
-        stopService(new Intent(getApplicationContext(),TimerService.class));
         stopService(new Intent(getApplicationContext(), Status_Service.class));
     }
 
@@ -58,6 +57,7 @@ public class Alarm_Service extends Service{
         }
         else{
             Intent order_intent = new Intent(this, Notification_Service.class);
+            order_intent.putExtra("ringing", "ringing");
             order_intent.putExtra("orderID", orderID);
             order_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startService(order_intent);

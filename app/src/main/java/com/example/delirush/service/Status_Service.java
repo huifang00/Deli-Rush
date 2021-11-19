@@ -1,23 +1,15 @@
 package com.example.delirush.service;
+
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.delirush.Database;
 import com.example.delirush.OrderActivity;
-import com.example.delirush.OrderListData;
-import com.example.delirush.PrefConfigOrderList;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class Status_Service extends Service {
-//    private ArrayList<OrderListData> orderData;
 
     @Nullable
     @Override
@@ -31,7 +23,7 @@ public class Status_Service extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-//        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
+        stopService(new Intent(getApplicationContext(), TimerService.class));
     }
 
     /**
@@ -46,34 +38,25 @@ public class Status_Service extends Service {
         Database dbHandler = new Database(getApplicationContext(), null, null, 1);
         new Thread(new Runnable() {
             public void run() {
-                while (true){
-                    if(!dbHandler.findPlacedOrder())
+                boolean match_collected = true;
+                // check if all order are collected status, if not then need loop the order status until ready is found
+                for (int i = 0; i < OrderActivity.orderData.size(); i++) {
+                    if (!OrderActivity.orderData.get(i).getOrderStatus().equals("On My Way")) {
+                        match_collected = false;
                         break;
-                    if(dbHandler.findReadyOrder()!=-1)
-                        
+                    }
                 }
-//                boolean match_collected = true;
-//                // check if all order are collected status, if not then need loop the order status until ready is found
-//                for(int i = 0; i< OrderActivity.orderData.size(); i++){
-//                    if(OrderActivity.orderData.get(i).getOrderStatus() != "Collected"){
-//                        match_collected = false;
-//                        break;
-//                    }
-//                }
-//                if(!match_collected && !OrderActivity.orderData.isEmpty()){
-//                    System.out.println(OrderActivity.orderData.size());
-//                    for(int position=0; position<OrderActivity.orderData.size();position++) {
-//                        if (OrderActivity.orderData.get(position).getOrderStatus().equals("Ready")) {
-//                            intentAlarm(position);
-//                            break;
-//                        }
-//                        if(position == OrderActivity.orderData.size()-1) {
-//                            position = -1;   // loop again until ready is found
-//                            // read again the orderData
-////                            orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(getApplicationContext());;   // update the data
-//                        }
-//                    }
-//                }
+                if (!match_collected && !OrderActivity.orderData.isEmpty()) {
+                    for (int position = 0; position < OrderActivity.orderData.size(); position++) {
+                        if (OrderActivity.orderData.get(position).getOrderStatus().equals("Ready")) {
+                            intentAlarm(position);
+                            break;
+                        }
+                        if (position == OrderActivity.orderData.size() - 1) {
+                            position = -1;   // loop again until ready is found
+                        }
+                    }
+                }
             }
 
             private void intentAlarm(int position) {

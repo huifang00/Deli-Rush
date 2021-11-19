@@ -26,16 +26,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     /**
      * Create the constructor
+     *
      * @param activity
      * @param arrayList
      */
-    public MainAdapter(Activity activity, ArrayList<String> arrayList){
+    public MainAdapter(Activity activity, ArrayList<String> arrayList) {
         this.activity = activity;
         this.arrayList = arrayList;
     }
 
     /**
      * Create new ViewHolder and initialize fields
+     *
      * @param parent
      * @param viewType
      * @return
@@ -44,13 +46,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.drawer_list, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.drawer_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
     }
 
     /**
      * Update the ViewHolder contents with the item at the given position
+     *
      * @param holder
      * @param position
      */
@@ -58,13 +61,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
         // Set text on text view
         holder.textView.setText(arrayList.get(position));
-        holder.textView.setOnClickListener(new View.OnClickListener(){
+        holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 // Get clicked item position
                 int position = holder.getAdapterPosition();
                 // Check condition
-                switch (position){
+                switch (position) {
                     case 0:
                         // When position is equal to 0, navigate to home page
                         activity.startActivity(new Intent(activity, HomeActivity.class).
@@ -110,6 +113,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     /**
      * Return the total number of item held by the adapter
+     *
      * @return
      */
     @Override

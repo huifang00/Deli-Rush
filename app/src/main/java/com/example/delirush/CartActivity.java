@@ -1,12 +1,5 @@
 package com.example.delirush;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,14 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.delirush.adapter.CartAdapter;
 import com.example.delirush.adapter.MainAdapter;
-import com.example.delirush.service.Status_Service;
+import com.example.delirush.service.Notification_Service;
 import com.example.delirush.service.TimerService;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class CartActivity extends AppCompatActivity {
     //Initialize variable
@@ -46,10 +45,7 @@ public class CartActivity extends AppCompatActivity {
         // read order data & cart data
         dbHandler = new Database(this, null, null, 1);
         dbHandler.readCart();
-//        dbHandler.readOrder();
-
-//        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
-//        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
+        dbHandler.readOrder();
 
         // variable of clear cart button
         clear_cart = findViewById(R.id.clear_cart);
@@ -98,8 +94,26 @@ public class CartActivity extends AppCompatActivity {
         userID.setText(id);
     }
 
+    /**
+     * If user enters the app from app icon, and the app currently is running in background
+     * start OrderActivity and display the dialog when enter app
+     */
     @Override
-    protected  void onPause(){
+    protected void onStart() {
+        super.onStart();
+        if (!Notification_Service.orderID.equals("")) {
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            order_intent.putExtra("orderID", Notification_Service.orderID);
+            order_intent.putExtra("ringing", "ringing");
+            // clear the order id prevent this condition to be true once the app enters from background
+            Notification_Service.orderID = "";
+            startActivity(order_intent);
+        }
+    }
+
+    @Override
+    protected void onPause() {
         super.onPause();
         HomeActivity.closeDrawer(drawerLayout);
     }
@@ -116,34 +130,19 @@ public class CartActivity extends AppCompatActivity {
 
         /*
          Update the latest order id with add 1 of previous order
-         the order id is unique and should be generated randomly from database
-         this should be update at the food seller side
-         database and food seller side are not implemented yet
+         the order id is unique and generated randomly from database
          */
-//        int id;
-//        if(orderData.isEmpty())
-//            id = 1;
-//        else
-//            id = Integer.parseInt(orderData.get(0).getOrderID())+1;
-//        Collections.reverse(orderData);
         OrderListData order = new OrderListData(1, getStallName(), "Order Placed");
         dbHandler.addOrder(order);
-//        order.setOrderID(dbHandler.getOrderID());   // update the id generated from database
-//        OrderActivity.orderData.add(order);
-//        dbHandler.readOrder();
-//        String orderID = String.valueOf(id);
-//        String foodStall = getStallName();
-//        orderData.add(new OrderListData(orderID, foodStall, "Order Placed"));
-        Collections.reverse(OrderActivity.orderData);
-//        PrefConfigOrderList.writeListInPref(getApplicationContext(), OrderActivity.orderData);
+        dbHandler.readOrder();
+
         // read the order id from the last row of database
         String orderID = String.valueOf(dbHandler.getOrderID());
         paymentDialog(orderID);
 
         // Clear the cart list
         dbHandler.deleteCart();
-//        cartData.clear();
-//        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
+
         // update the view of cart page
         updateView(cartRecyclerView);
     }
@@ -168,7 +167,6 @@ public class CartActivity extends AppCompatActivity {
                         } else {
                             startService(intent);
                         }
-                        startService(new Intent(getApplicationContext(), Status_Service.class));
                         startActivity(new Intent(getApplicationContext(), OrderActivity.class).
                                 setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         dialog.dismiss();
@@ -189,8 +187,6 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dbHandler.deleteCart();
-//                cartData.clear();
-//                PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
                 // update the view of cart page
                 updateView(cartRecyclerView);
             }
@@ -222,7 +218,7 @@ public class CartActivity extends AppCompatActivity {
             total = 0;
         }
         for(int i=0;i<cartData.size();i++){
-            total+=Float.parseFloat(cartData.get(i).getTotal());
+            total += cartData.get(i).getTotal();
         }
         total_sum_text.setText(df.format(total));
         // If cart empty make clear button invisible

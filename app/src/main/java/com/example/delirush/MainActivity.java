@@ -1,8 +1,5 @@
 package com.example.delirush;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,8 +7,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 import com.example.delirush.service.Alarm_Service;
 import com.example.delirush.service.Notification_Service;
+import com.example.delirush.service.TimerService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,12 +35,19 @@ public class MainActivity extends AppCompatActivity {
         appName2.setTypeface(typeface2);
 
         // When the notification is pop up, the application should be started from the order page
-        if(Notification_Service.notified){
+        if (TimerService.notified && Notification_Service.notified) {
             Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
                     setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             order_intent.putExtra("orderID", Alarm_Service.orderID);  // let the order ID be static?
             order_intent.putExtra("ringing", "ringing");
             startActivity(order_intent);
+            TimerService.notified = false;
+            Notification_Service.notified = false;
+        } else if (TimerService.notified && !Notification_Service.notified) {
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(order_intent);
+            TimerService.notified = false;
         }
     }
 

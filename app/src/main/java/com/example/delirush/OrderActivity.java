@@ -1,11 +1,5 @@
 package com.example.delirush;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,11 +8,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.OrderAdapter;
 import com.example.delirush.service.Alarm_Service;
 import com.example.delirush.service.Notification_Service;
-import com.example.delirush.service.Status_Service;
+
 import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
@@ -26,12 +28,16 @@ public class OrderActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView btMenu;
     private RecyclerView recyclerView;
-    public static ArrayList<OrderListData> orderData  = new ArrayList<>();
+    public static ArrayList<OrderListData> orderData = new ArrayList<>();
+    private Database dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        // read order from database
+        dbHandler = new Database(getApplicationContext(), null, null, 1);
 
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -62,10 +68,10 @@ public class OrderActivity extends AppCompatActivity {
         orderRecyclerView.setAdapter(adapter);
 
         Bundle extras = getIntent().getExtras();
-        if(extras == null){
+        if (extras == null) {
             return;
         }
-        if(extras.getString("orderID") != null && extras.getString("orderID") != null) {
+        if (extras.getString("orderID") != null && extras.getString("orderID") != null && Notification_Service.orderID.equals("")) {
             String orderID = extras.getString("orderID");
             String ringing = extras.getString("ringing");
             if (ringing.equals("ringing")) {
@@ -76,8 +82,22 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * If user enters the app from app icon, and the app currently is running in background
+     * display the dialog when enter app
+     */
     @Override
-    protected  void onPause(){
+    protected void onStart() {
+        super.onStart();
+        if (!Notification_Service.orderID.equals("")) {
+            display(Notification_Service.orderID);
+            // clear the order id prevent this condition to be true once the app enters from background
+            Notification_Service.orderID = "";
+        }
+    }
+
+    @Override
+    protected void onPause() {
         super.onPause();
         HomeActivity.closeDrawer(drawerLayout);
     }
@@ -87,6 +107,7 @@ public class OrderActivity extends AppCompatActivity {
      * @param orderID
      */
     public void display(String orderID){
+        stopService(new Intent(getApplicationContext(), Notification_Service.class));
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String msg = "Food order ID: " + orderID + " ready to be collected.";
         builder.setMessage(msg);
@@ -95,19 +116,20 @@ public class OrderActivity extends AppCompatActivity {
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Database dbHandler = new Database(getApplicationContext(), null, null, 1);
                         dbHandler.updateOrder(Integer.parseInt(orderID), "On My Way");
-//                        dbHandler.readOrder();
+                        dbHandler.readOrder();
+
                         // clear the notification from the status bar
                         NotificationManagerCompat.from(getApplicationContext()).cancelAll();
+
                         // display the updated order list with latest status
                         RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
                         OrderAdapter adapter = new OrderAdapter(orderData);
                         orderRecyclerView.setHasFixedSize(true);
                         orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         orderRecyclerView.setAdapter(adapter);
+
                         // start and stop services
-                        startService(new Intent(getApplicationContext(), Status_Service.class));
                         stopService(new Intent(getApplicationContext(), Alarm_Service.class));
                         stopService(new Intent(getApplicationContext(), Notification_Service.class));
                         dialog.dismiss();

@@ -1,6 +1,7 @@
 package com.example.delirush.FoodStallActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -15,14 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delirush.CartActivity;
-import com.example.delirush.CartListData;
 import com.example.delirush.Database;
 import com.example.delirush.HomeActivity;
 import com.example.delirush.MenuListData;
-import com.example.delirush.PrefConfigCartList;
+import com.example.delirush.OrderActivity;
 import com.example.delirush.R;
 import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.MenuAdapter;
+import com.example.delirush.service.Notification_Service;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,8 @@ public class BeverageStallActivity extends AppCompatActivity implements Quantity
     private ArrayList<MenuListData> beverage_menu = new ArrayList<MenuListData>();
     private static String price = "";
     private String food = "";
-//    private ArrayList<CartListData> cartData;
+    private Database dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +45,9 @@ public class BeverageStallActivity extends AppCompatActivity implements Quantity
         stallView.setBackgroundResource(R.drawable.beverages);
 
         // Read cart Data
-//        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
-        // Assign variable
+        dbHandler = new Database(getApplicationContext(), null, null, 1);
+        dbHandler.readCart();
+
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
         recyclerView = findViewById(R.id.recycler_view);
@@ -74,9 +77,27 @@ public class BeverageStallActivity extends AppCompatActivity implements Quantity
         String openDialog = extras.getString("openDialog");
         food = extras.getString("food");
         price = extras.getString("price");
-        if(openDialog.equals("open")) {
+        if (openDialog.equals("open")) {
             openDialog(food);
             extras.remove("openDialog");
+        }
+    }
+
+    /**
+     * If user enters the app from app icon, and the app currently is running in background
+     * start OrderActivity and display the dialog when enter app
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!Notification_Service.orderID.equals("")) {
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            order_intent.putExtra("orderID", Notification_Service.orderID);
+            order_intent.putExtra("ringing", "ringing");
+            // clear the order id prevent this condition to be true once the app enters from background
+            Notification_Service.orderID = "";
+            startActivity(order_intent);
         }
     }
 
@@ -123,10 +144,6 @@ public class BeverageStallActivity extends AppCompatActivity implements Quantity
                 builder.setPositiveButton("PROCEED", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Clear the cart
-//                        cartData.clear();
-//                        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
-                        Database dbHandler = new Database(getApplicationContext(), null, null, 1);
                         dbHandler.deleteCart();
                         dialog.dismiss();
                         StallActivity.updateCart(getApplicationContext(), quantity, food, price, 2);

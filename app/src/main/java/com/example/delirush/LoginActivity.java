@@ -1,8 +1,5 @@
 package com.example.delirush;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -13,7 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 public class LoginActivity extends AppCompatActivity {
     // Declare variables
@@ -28,8 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         String id = "123456";
         String password = "pw123";
     }
-    private ArrayList<OrderListData> orderData;
-    private ArrayList<CartListData> cartData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,21 +94,9 @@ public class LoginActivity extends AppCompatActivity {
                 Database dbHandler = new Database(this, null, null, 1);
                 // Take order data from database
                 dbHandler.readOrder();
-//                orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
-//                // If order data is not created in the shared preference, initialize order data
-//                if(orderData == null){
-//                    orderData = new ArrayList<OrderListData>();
-//                    PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
-//                }
 
                 // Take cart data from memory(shared preference)
                 dbHandler.readCart();
-//                cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
-//                // If cart data is not created in the shared preference, initialize cart data
-//                if(cartData == null){
-//                    cartData = new ArrayList<CartListData>();
-//                    PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
-//                }
 
                 // Store user id into shared preference
                 SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);

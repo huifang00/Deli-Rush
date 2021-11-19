@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,19 +14,21 @@ import com.example.delirush.R;
 
 import java.util.ArrayList;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
-    private ArrayList<OrderListData> orderData;
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
+    private final ArrayList<OrderListData> orderData;
 
     /**
      * Create the constructor
+     *
      * @param orderData
      */
-    public OrderAdapter(ArrayList<OrderListData>  orderData) {
+    public OrderAdapter(ArrayList<OrderListData> orderData) {
         this.orderData = orderData;
     }
 
     /**
      * Create new ViewHolder and initialize fields
+     *
      * @param parent
      * @param viewType
      * @return
@@ -34,13 +37,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.order_list, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.order_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
     }
 
     /**
      * Update the ViewHolder contents with the item at the given position
+     *
      * @param holder
      * @param position
      */
@@ -54,6 +58,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
 
     /**
      * Return the total number of item held by the adapter
+     *
      * @return
      */
     @Override
@@ -72,7 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
             this.orderID = (TextView) itemView.findViewById(R.id.orderID);
             this.orderFoodStall = (TextView) itemView.findViewById(R.id.orderFoodStall);
             this.orderStatus = (TextView) itemView.findViewById(R.id.orderStatus);
-            relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relativeLayout);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relativeLayout);
         }
     }
 }

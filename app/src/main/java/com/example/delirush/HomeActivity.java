@@ -1,11 +1,5 @@
 package com.example.delirush;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,10 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.delirush.adapter.MainAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.delirush.FoodStallActivity.BeverageStallActivity;
 import com.example.delirush.FoodStallActivity.ChineseStallActivity;
 import com.example.delirush.FoodStallActivity.MalayStallActivity;
+import com.example.delirush.adapter.MainAdapter;
+import com.example.delirush.service.Notification_Service;
 
 import java.util.ArrayList;
 
@@ -80,11 +81,28 @@ public class HomeActivity extends AppCompatActivity {
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
         userID.setText(id);
-//        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
+    }
+
+    /**
+     * If user enters the app from app icon, and the app currently is running in background
+     * start OrderActivity and display the dialog when enter app
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!Notification_Service.orderID.equals("")) {
+            Intent order_intent = new Intent(getApplicationContext(), OrderActivity.class).
+                    setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            order_intent.putExtra("orderID", Notification_Service.orderID);
+            order_intent.putExtra("ringing", "ringing");
+            // clear the order id prevent this condition to be true once the app enters from background
+            Notification_Service.orderID = "";
+            startActivity(order_intent);
+        }
     }
 
     @Override
-    protected  void onPause(){
+    protected void onPause() {
         super.onPause();
         HomeActivity.closeDrawer(drawerLayout);
     }
