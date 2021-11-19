@@ -11,7 +11,6 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.example.delirush.CartActivity;
 import com.example.delirush.CartListData;
 import com.example.delirush.HomeActivity;
 import com.example.delirush.PrefConfigCartList;
@@ -37,11 +36,11 @@ public class QuantityDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String curr_quantity = "0";
-//        ArrayList<CartListData> cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(getActivity().getApplicationContext());
+        ArrayList<CartListData> cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(getActivity().getApplicationContext());
 
-        for(int i=0;i< CartActivity.cartData.size();i++){
-            if(CartActivity.cartData.get(i).getFood().equals(food)){
-                curr_quantity = String.valueOf(CartActivity.cartData.get(i).getQuantity());
+        for(int i=0;i<cartData.size();i++){
+            if(cartData.get(i).getFood().equals(food)){
+                curr_quantity = cartData.get(i).getQuatity();
                 break;
             }
         }

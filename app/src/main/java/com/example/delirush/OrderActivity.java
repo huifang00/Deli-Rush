@@ -26,12 +26,15 @@ public class OrderActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView btMenu;
     private RecyclerView recyclerView;
-    public static ArrayList<OrderListData> orderData  = new ArrayList<>();
+    private ArrayList<OrderListData> orderData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        // read from shared preferences
+        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
 
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -65,6 +68,7 @@ public class OrderActivity extends AppCompatActivity {
         if(extras == null){
             return;
         }
+
         if(extras.getString("orderID") != null && extras.getString("orderID") != null) {
             String orderID = extras.getString("orderID");
             String ringing = extras.getString("ringing");
@@ -95,18 +99,19 @@ public class OrderActivity extends AppCompatActivity {
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Database dbHandler = new Database(getApplicationContext(), null, null, 1);
-                        dbHandler.updateOrder(Integer.parseInt(orderID), "On My Way");
-//                        dbHandler.readOrder();
-                        // clear the notification from the status bar
-                        NotificationManagerCompat.from(getApplicationContext()).cancelAll();
-                        // display the updated order list with latest status
-                        RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
-                        OrderAdapter adapter = new OrderAdapter(orderData);
-                        orderRecyclerView.setHasFixedSize(true);
-                        orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        orderRecyclerView.setAdapter(adapter);
-                        // start and stop services
+                        for(int i=0;i<orderData.size();i++){
+                            if(orderData.get(i).getOrderID().equals(orderID)){
+                                orderData.get(i).setOrderStatus("On My Way");
+                                RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.orderRecyclerView);
+                                OrderAdapter adapter = new OrderAdapter(orderData);
+                                PrefConfigOrderList.writeListInPref(getApplicationContext(), orderData);
+                                orderRecyclerView.setHasFixedSize(true);
+                                orderRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                orderRecyclerView.setAdapter(adapter);
+                                NotificationManagerCompat.from(getApplicationContext()).cancelAll();    // clear all notification from the status bar
+                                break;
+                            }
+                        }
                         startService(new Intent(getApplicationContext(), Status_Service.class));
                         stopService(new Intent(getApplicationContext(), Alarm_Service.class));
                         stopService(new Intent(getApplicationContext(), Notification_Service.class));

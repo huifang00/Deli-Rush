@@ -80,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         String id = sharedPreferences.getString("userID", "");
         TextView userID = findViewById(R.id.userID);
         userID.setText(id);
-//        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
+        orderData = (ArrayList<OrderListData>) PrefConfigOrderList.readListFromPref(this);
     }
 
     @Override

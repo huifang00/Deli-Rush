@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delirush.CartActivity;
 import com.example.delirush.CartListData;
-import com.example.delirush.Database;
 import com.example.delirush.HomeActivity;
 import com.example.delirush.MenuListData;
 import com.example.delirush.PrefConfigCartList;
@@ -33,7 +32,7 @@ public class MalayStallActivity extends AppCompatActivity implements QuantityDia
     private ArrayList<MenuListData> malay_menu = new ArrayList<MenuListData>();
     static String price = "";
     private String food = "";
-//    private ArrayList<CartListData> cartData;
+    private ArrayList<CartListData> cartData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +41,7 @@ public class MalayStallActivity extends AppCompatActivity implements QuantityDia
         stallView.setBackgroundResource(R.drawable.malay);
 
         // Read cart Data
-//        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
+        cartData = (ArrayList<CartListData>) PrefConfigCartList.readListFromPref(this);
         // Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
@@ -113,7 +112,7 @@ public class MalayStallActivity extends AppCompatActivity implements QuantityDia
      */
     @Override
     public void applyTexts(String quantity) {
-        if(!CartActivity.cartData.isEmpty()){
+        if(!cartData.isEmpty()){
             if(CartActivity.getOrderStall()!=HomeActivity.getSelectedStall()){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Seems like you have selected from different stall.");
@@ -123,10 +122,8 @@ public class MalayStallActivity extends AppCompatActivity implements QuantityDia
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Clear the cart
-//                        cartData.clear();
-//                        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
-                        Database dbHandler = new Database(getApplicationContext(), null, null, 1);
-                        dbHandler.deleteCart();
+                        cartData.clear();
+                        PrefConfigCartList.writeListInPref(getApplicationContext(), cartData);
                         dialog.dismiss();
                         StallActivity.updateCart(getApplicationContext(), quantity, food, price, 1);
                     }

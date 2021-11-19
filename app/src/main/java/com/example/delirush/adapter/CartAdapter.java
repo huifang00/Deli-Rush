@@ -48,7 +48,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CartListData myListData = cartData.get(position);
         holder.food.setText(cartData.get(position).getFood());
-        holder.quantity.setText(String.valueOf(cartData.get(position).getQuantity()));
+        holder.quantity.setText(cartData.get(position).getQuatity());
         holder.total.setText(cartData.get(position).getTotal());
     }
 
