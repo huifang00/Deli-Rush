@@ -19,3 +19,7 @@ Import the project folder through Android studio
 1. Download the Zip folder of this project
 2. Open Android studio
 3. Select File > New > Import project > Search for the downloaded project folder
+
+### Limitation of current version
+The current application are assuming that user only place one order per time and the next order can only be placed after the previous order status is updated to "On My Way". This is because the current version is using timer to update the order status. However, in reality the order status should be updated from database instead of timer.
+
