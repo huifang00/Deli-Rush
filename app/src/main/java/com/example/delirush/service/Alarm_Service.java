@@ -29,7 +29,7 @@ public class Alarm_Service extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        mediaPlayer = MediaPlayer.create(this, R.raw.ringtone);
+        mediaPlayer = MediaPlayer.create(this, R.raw.alarm_beep_3);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
         stopService(new Intent(getApplicationContext(), Status_Service.class));
