@@ -50,3 +50,5 @@ The current application are assuming that user only place one order per time and
 <img src="./Deli Rush Images/24.png" width="100" height="180">
 <img src="./Deli Rush Images/25.png" width="100" height="180">
 <img src="./Deli Rush Images/26.png" width="100" height="180">
+<img src="./Deli Rush Images/27.png" width="100" height="180">
+<img src="./Deli Rush Images/28.png" width="100" height="180">
