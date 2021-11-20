@@ -32,7 +32,9 @@ The current application are assuming that user only place one order per time and
 <img src="./Deli Rush Images/6.png" width="100" height="180">
 <img src="./Deli Rush Images/7.png" width="100" height="180">
 <img src="./Deli Rush Images/8.png" width="100" height="180">
-<img src="./Deli Rush Images/9.png" width="100" height="180">
+<img src="./Deli Rush Images/9a.png" width="100" height="180">
+<img src="./Deli Rush Images/9b.png" width="100" height="180">
+<img src="./Deli Rush Images/9c.png" width="100" height="180">
 <img src="./Deli Rush Images/10.png" width="100" height="180">
 <img src="./Deli Rush Images/11.png" width="100" height="180">
 <img src="./Deli Rush Images/12.png" width="100" height="180">
@@ -50,5 +52,3 @@ The current application are assuming that user only place one order per time and
 <img src="./Deli Rush Images/24.png" width="100" height="180">
 <img src="./Deli Rush Images/25.png" width="100" height="180">
 <img src="./Deli Rush Images/26.png" width="100" height="180">
-<img src="./Deli Rush Images/27.png" width="100" height="180">
-<img src="./Deli Rush Images/28.png" width="100" height="180">
