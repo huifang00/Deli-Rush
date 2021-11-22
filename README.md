@@ -27,5 +27,5 @@ The current application are assuming that user only place one order per time and
 Click <a href="Screenshot of Images.pdf">here</a> for details of screenshots of Deli Rush.
 
 ## ID & Password for log in the application
-Staff/Student ID: 123456
-Password: pw123
+***Staff/Student ID: 123456***<br/>
+***Password: pw123***
