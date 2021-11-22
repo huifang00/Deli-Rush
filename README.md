@@ -16,9 +16,10 @@ Clone the repository to your local by typing below commamd
 > $ git clone https://github.com/huifang00/Deli-Rush.git
 ### OR
 Import the project folder through Android studio
-1. Download the Zip folder of this project
-2. Open Android studio
-3. Select File > New > Import project > Search for the downloaded project folder
+1. Download the zip folder of this project
+2. Extract the zip folder
+3. Open Android studio
+4. Select File > New > Import project > Search for the downloaded project folder
 
 ## Limitation of current version
 The current application are assuming that user only place one order per time and the next order can only be placed after the previous order status is updated to "On My Way". This is because the current version is using timer to update the order status. However, in reality the order status should be updated from database instead of timer.
