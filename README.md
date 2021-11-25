@@ -25,7 +25,7 @@ Import the project folder through Android studio
 The current application are assuming that user only place one order per time and the next order can only be placed after the previous order status is updated to "On My Way". This is because the current version is using timer to update the order status. However, in reality the order status should be updated from database instead of timer.
 
 ## Screenshot of Deli Rush
-Click <a href="Screenshot of Images.pdf">here</a> for details of screenshots of Deli Rush.
+Click <a href="Screenshot of Deli-Rush.pdf">here</a> for details of screenshots of Deli Rush.
 
 ## ID & Password for log in the application
 ***Staff/Student ID: 123456***<br/>
