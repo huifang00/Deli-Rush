@@ -1,5 +1,13 @@
 package com.example.delirush.FoodStallActivity;
-
+/*****************************
+ * Code is referred from
+ *    Title: Custom Dialog + Sending Information to Activity - Android Studio Tutorial
+ *    Author: Coding in Flow
+ *    Date: 6/10/2017
+ *    Code version: 1.0
+ *    Availability: https://www.youtube.com/watch?v=ARezg1D9Zd0
+ *
+ *****************************/
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

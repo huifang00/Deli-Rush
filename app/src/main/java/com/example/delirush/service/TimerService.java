@@ -1,5 +1,13 @@
 package com.example.delirush.service;
-
+/*****************************
+ * Code is referred from
+ *    Title: How to Start a Foreground Service in Android (With Notification Channels)
+ *    Author: Coding in Flow
+ *    Date: 11/5/2018
+ *    Code version: 1.0
+ *    Availability: https://www.youtube.com/watch?v=FbpD5RZtbCc
+ *
+ *****************************/
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

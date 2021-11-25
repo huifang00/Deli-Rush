@@ -1,5 +1,13 @@
 package com.example.delirush.adapter;
-
+/*****************************
+ * Code is referred from
+ *    Title: Android RecyclerView List Example
+ *    Author: -
+ *    Date: -
+ *    Code version: 1.0
+ *    Availability: https://www.javatpoint.com/android-recyclerview-list-example
+ *
+ *****************************/
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

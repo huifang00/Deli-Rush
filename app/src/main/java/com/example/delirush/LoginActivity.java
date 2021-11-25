@@ -1,5 +1,13 @@
 package com.example.delirush;
-
+/*****************************
+ * Code is referred from
+ *    Title: Android RecyclerView List Example
+ *    Author: Professor DK
+ *    Date: 25/5/2020
+ *    Code version: 1.0
+ *    Availability: https://www.youtube.com/watch?v=LCrhddpsgKU
+ *
+ *****************************/
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
