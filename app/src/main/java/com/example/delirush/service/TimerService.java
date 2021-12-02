@@ -68,7 +68,7 @@ public class TimerService extends Service {
                 .setContentTitle("Preparing your order [ID: " + intent.getExtras().getString("orderId_fromCart") + "]")
                 .setContentIntent(contentIntent);
         Notification notification=builder.build();
-        if(Build.VERSION.SDK_INT>=26) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "001", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);

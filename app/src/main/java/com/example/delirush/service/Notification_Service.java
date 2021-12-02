@@ -75,8 +75,7 @@ public class Notification_Service extends Service {
                     .setOngoing(true)   // when user clear notification, it won't clear till they click in the apps
                     .setAutoCancel(true);   // when notification is clicked, remove from notification bar
 
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-            notificationManagerCompat.notify(001, builder.build());
+            notificationManager.notify(001, builder.build());
 
         } else {
             Notification.Builder builder = new Notification.Builder(this);
@@ -84,8 +83,8 @@ public class Notification_Service extends Service {
                     .setContentTitle(msg)
                     .setPriority(Notification.PRIORITY_DEFAULT);
 
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-            notificationManagerCompat.notify(001, builder.build());
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(001, builder.build());
         }
     }
 
