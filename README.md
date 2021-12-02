@@ -13,7 +13,9 @@ Due to current pandemic situation, crowd of people should be avoided.
 
 ## Installation of the application
 Clone the repository to your local by typing below commamd
-> $ git clone https://github.com/huifang00/Deli-Rush.git
+```
+$ git clone https://github.com/huifang00/Deli-Rush.git
+```
 ### OR
 Import the project folder through Android studio
 1. Download the zip folder of this project
