@@ -20,6 +20,7 @@ import com.example.delirush.adapter.MainAdapter;
 import com.example.delirush.adapter.OrderAdapter;
 import com.example.delirush.service.Alarm_Service;
 import com.example.delirush.service.Notification_Service;
+import com.example.delirush.service.TimerService;
 
 import java.util.ArrayList;
 
@@ -132,6 +133,8 @@ public class OrderActivity extends AppCompatActivity {
                         // start and stop services
                         stopService(new Intent(getApplicationContext(), Alarm_Service.class));
                         stopService(new Intent(getApplicationContext(), Notification_Service.class));
+                        TimerService.notified = false;
+                        Notification_Service.notified = false;
                         dialog.dismiss();
                     }
                 });

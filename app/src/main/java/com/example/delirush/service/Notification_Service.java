@@ -1,5 +1,6 @@
 package com.example.delirush.service;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -66,10 +67,10 @@ public class Notification_Service extends Service {
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
 
-            android.app.Notification.Builder builder = new android.app.Notification.Builder(this, CHANNEL_ID);
+            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID);
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(msg)
-                    .setPriority(android.app.Notification.PRIORITY_DEFAULT)
+                    .setPriority(Notification.PRIORITY_DEFAULT)
                     .setContentIntent(contentIntent)
                     .setOngoing(true)   // when user clear notification, it won't clear till they click in the apps
                     .setAutoCancel(true);   // when notification is clicked, remove from notification bar
@@ -78,10 +79,10 @@ public class Notification_Service extends Service {
             notificationManagerCompat.notify(001, builder.build());
 
         } else {
-            android.app.Notification.Builder builder = new android.app.Notification.Builder(this);
+            Notification.Builder builder = new Notification.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(msg)
-                    .setPriority(android.app.Notification.PRIORITY_DEFAULT);
+                    .setPriority(Notification.PRIORITY_DEFAULT);
 
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
             notificationManagerCompat.notify(001, builder.build());

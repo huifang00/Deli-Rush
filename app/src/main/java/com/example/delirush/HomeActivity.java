@@ -169,7 +169,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class).
-                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 finish();
             }
         });
