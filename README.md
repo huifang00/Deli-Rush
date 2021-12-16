@@ -6,7 +6,7 @@ Hence, this leads the issue the seller rings the call bell when the food is read
 However, from a different perspective, if the customers are waiting in front of the stall, this leads to increasing of crowd in front of the stall.
 Due to current pandemic situation, crowd of people should be avoided.
 
-## Purpose of the Deli Rush
+## Purpose of the application (Deli Rush)
 1. Cut down the queue of ordering food
 2. Notify the customer when the food is ready for collection
 3. Reduce the time of lining up for ordering food
@@ -37,6 +37,6 @@ Click [here](UserManual.pdf) for user manual on customer side.
 ## Screenshot of Deli Rush
 Click [here](ScreenshotOfDeliRush.pdf) for screenshots of Deli Rush application.
 
-## ID & Password for log in the application
+## ID & Password for log in the application as customer
 ***Staff/Student ID: 123456***<br/>
 ***Password: pw123***
