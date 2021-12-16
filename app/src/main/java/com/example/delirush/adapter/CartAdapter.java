@@ -60,7 +60,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("0.00");
-        final CartListData myListData = cartData.get(position);
         holder.food.setText(cartData.get(position).getFood());
         holder.quantity.setText(String.valueOf(cartData.get(position).getQuantity()));
         holder.total.setText(df.format(cartData.get(position).getTotal()));
